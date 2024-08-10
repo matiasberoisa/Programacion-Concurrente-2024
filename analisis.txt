@@ -1,0 +1,12 @@
+el codigo crea varias subclases de instrumento, y en todas
+define metodos llamado tocar, tipo y afinar.
+el metodo tocar devuelve el instrumento que es tocado, tipo devuelve el
+instrumento definido en la subclase, y afinar lo que hace afina los instrumentos
+en ciertas subclases el metodo tipo retorna un String y en otros casos
+es el metodo afinar quien retorna un String
+
+luego en la clase musica se define un metodo afinar que le pasa un instrumento
+por parametro, y utiliza el metodo tocar de la clase del instrumento.
+luego define un metodo afinarTodo, que en este caso se le pasa un arreglo
+de instrumentos, en el cual se utiliza el metodo afinar definido en la
+clase musica.
