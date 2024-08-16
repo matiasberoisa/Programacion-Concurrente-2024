@@ -1,3 +1,4 @@
+package PC;
 public class excepcion {
     public static double acceso_por_indice(double[] v, int j)
             throws RuntimeException {
