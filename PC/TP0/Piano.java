@@ -1,4 +1,4 @@
-package PC;
+package PC.TP0;
 class Piano extends Instrumento {
     public void tocar() {
         System.out.println("Piano.tocar()");

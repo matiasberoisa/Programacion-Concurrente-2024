@@ -1,4 +1,4 @@
-package PC;
+package PC.TP0;
 class Saxofon extends Instrumento {
     public void tocar() {
     System.out.println("Saxofon.tocar()");

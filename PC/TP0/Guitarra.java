@@ -1,4 +1,4 @@
-package PC;
+package PC.TP0;
 class Guitarra extends Instrumento {
     public void tocar() {
         System.out.println("Guitarra.tocar()");

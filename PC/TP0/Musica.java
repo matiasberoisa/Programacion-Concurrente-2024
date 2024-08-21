@@ -1,4 +1,4 @@
-package PC;
+package PC.TP0;
 public class Musica {
     static void afinar(Instrumento i) {
         i.tocar();

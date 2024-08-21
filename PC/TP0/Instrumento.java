@@ -1,4 +1,4 @@
-package PC;
+package PC.TP0;
 
 class Instrumento {
 public void tocar() {

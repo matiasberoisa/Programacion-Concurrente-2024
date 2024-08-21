@@ -1,4 +1,4 @@
-package PC;
+package PC.TP0;
 class Guzla extends Guitarra {
     public void tocar() {
     System.out.println("Guzla.tocar()");
