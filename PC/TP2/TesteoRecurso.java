@@ -2,9 +2,9 @@ package PC.TP2;
 
 public class TesteoRecurso {
     public static void main (String[] args){
-    Cliente juan=new Cliente();
+    Cliente1 juan=new Cliente1();
     juan.setName("Juan Lopez");
-    Cliente ines=new Cliente ();
+    Cliente1 ines=new Cliente1 ();
     ines.setName ("Ines Garcia");
     ines.start();
     juan.start();
