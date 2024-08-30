@@ -1,7 +1,5 @@
 package PC.TP2;
 
-import java.util.ArrayList;
-
 public class Cajero {
     private String nombre;
 
@@ -33,7 +31,8 @@ public class Cajero {
         Cajero cajero1 = new Cajero("Cajero 1");
         // Tiempo inicial de referencia
         long initialTime = System.currentTimeMillis();
-
+        cajero1.procesarCompra(cliente1, initialTime);
+        cajero1.procesarCompra(cliente2, initialTime);
     }
 
     public void esperarXsegundos(int seg) {
