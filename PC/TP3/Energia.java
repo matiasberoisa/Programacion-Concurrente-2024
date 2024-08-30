@@ -1,7 +1,5 @@
 package PC.TP3;
 
-import java.util.ArrayList;
-
 public class Energia implements Runnable {
     private int energia = 10;
 
