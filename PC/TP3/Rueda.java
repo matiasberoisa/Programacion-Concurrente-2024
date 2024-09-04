@@ -1,30 +1,15 @@
 package PC.TP3;
 
-public class Rueda implements Runnable {
-    private boolean enUso;
+public class Rueda {
 
-    public Rueda() {
-    }
-
-    public void run() {
-        if (!enUso) {
-            enUso = true;
-            System.out.println(Thread.currentThread().getName() + " usa la rueda");
-            synchronized (this) {
-                try {
-                    for (int i = 0; i < 5; i++) {
-                        System.out.print(". ");
-                        Thread.sleep(1000);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println();
-                System.out.println("la rueda fue desocupada");
-            }
-            enUso = false;
-        } else {
-            System.out.println("la rueda esta ocupada.");
+    public synchronized void run(String nombre) {
+        System.out.println(nombre + " usa la rueda");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        System.out.println("la rueda fue desocupada");
+
     }
 }

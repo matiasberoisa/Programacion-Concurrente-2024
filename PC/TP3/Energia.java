@@ -33,10 +33,8 @@ public class Energia implements Runnable {
 
     public void run() {
         try {
-            for (int i = 0; i < 3; i++) {
-                this.realizarAtaque();
-                Thread.sleep(3000);
-            }
+            this.realizarAtaque();
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,5 +49,23 @@ public class Energia implements Runnable {
         hilo1.join();
         hilo2.start();
         hilo2.join();
+        /*
+         * Energia energia = new Energia();
+         * Thread[] hilo1 = new Thread[3];
+         * Thread[] hilo2 = new Thread[3];
+         * System.out.println("comienza la secuencia de energia");
+         * for (int i = 0; i < 3; i++) {
+         * Thread hiloCriatura = new Thread(energia, "la Criatura Oscura");
+         * Thread hiloSanador = new Thread(energia, "el Sanador");
+         * hilo1[i] = hiloCriatura;
+         * hilo2[i] = hiloSanador;
+         * }
+         * for (int i = 0; i < 3; i++) {
+         * hilo1[i].start();
+         * hilo1[i].join();
+         * hilo2[i].start();
+         * hilo2[i].join();
+         * }
+         */
     }
 }

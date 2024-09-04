@@ -1,15 +1,26 @@
 package PC.TP3;
 
-public class Jaula extends Thread {
-    private Thread[] objetos;
-    private Mascotas hamster;
+public class Jaula {
+    private Hamaca miHamaca;
+    private Rueda miRueda;
+    private Plato miPlato;
 
-    public Jaula(Thread[] obj, Mascotas ham) {
-        objetos = obj;
-        hamster = ham;
+    public Jaula(Hamaca ham, Rueda ru, Plato pla) {
+        miHamaca = ham;
+        miRueda = ru;
+        miPlato = pla;
     }
 
-    public void run() {
-
+    public void descansar(String nombre) {
+        miHamaca.run(nombre);
     }
+
+    public void jugar(String nombre) {
+        miRueda.run(nombre);
+    }
+
+    public void comer(String nombre) {
+        miPlato.run(nombre);
+    }
+
 }
