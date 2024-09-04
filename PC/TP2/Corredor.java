@@ -19,7 +19,7 @@ public class Corredor implements Runnable {
         try {
             System.out.println("Comenzando " + this.nombre);
             for (int i = 0; i < 20; i++) {
-                int distanciaActual = random.nextInt(1, 10);
+                int distanciaActual = random.nextInt(10);
                 this.distancia += distanciaActual;
                 System.out.println(this.nombre + " realiza paso " + (i + 1) + ", recorrio " + distanciaActual);
                 Thread.sleep(400);
