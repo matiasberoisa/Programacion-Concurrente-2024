@@ -4,9 +4,19 @@ import java.util.ArrayList;
 
 public class Mascotas {
     private String nombre;
+    private int objUsados;
 
     public Mascotas(String nn) {
         nombre = nn;
+        objUsados = 0;
+    }
+
+    public void usoElemento() {
+        objUsados += 1;
+    }
+
+    public int elementosUsados() {
+        return this.objUsados;
     }
 
     public String getNombre() {
@@ -14,18 +24,18 @@ public class Mascotas {
     }
 
     public static void main(String[] args) {
-        ArrayList<Runnable> objetos = new ArrayList<Runnable>();
-        ArrayList<Thread> animales = new ArrayList<Thread>();
-        Hamaca hamaca = new Hamaca();
-        Plato plato = new Plato();
-        Rueda rueda = new Rueda();
-        objetos.add(hamaca);
-        objetos.add(plato);
-        objetos.add(rueda);
+        Thread[] objetos = new Thread[3];
+        ArrayList<Jaula> animales = new ArrayList<Jaula>();
+        Thread hiloHamaca = new Thread(new Hamaca());
+        Thread hiloPlato = new Thread(new Plato());
+        Thread hiloRueda = new Thread(new Rueda());
+        objetos[0] = hiloHamaca;
+        objetos[1] = hiloPlato;
+        objetos[2] = hiloRueda;
         for (int i = 0; i < 6; i++) {
-            Thread hiloHamster = new Thread("Hamster#" + (i + 1));
+            Jaula hiloHamster = new Jaula(objetos, new Mascotas("Hamster#" + (i + 1)));
             animales.add(hiloHamster);
         }
-        objetos.forEach(obj -> obj.run());
+        animales.forEach(a -> a.start());
     }
 }

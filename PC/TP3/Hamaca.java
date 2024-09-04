@@ -7,15 +7,13 @@ public class Hamaca implements Runnable {
     }
 
     public void run() {
-        String cadena = "";
         if (!enUso) {
             enUso = true;
             System.out.println(Thread.currentThread().getName() + " usa la hamaca");
             synchronized (this) {
                 try {
                     for (int i = 0; i < 5; i++) {
-                        cadena = ". ";
-                        System.out.print(cadena);
+                        System.out.print(". ");
                         Thread.sleep(1000);
                     }
                 } catch (InterruptedException e) {
