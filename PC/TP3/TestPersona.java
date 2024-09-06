@@ -9,7 +9,7 @@ public class TestPersona {
         Area[] espacios = new Area[5];
         Random numRandom = new Random();
         for (int i = 0; i < espacios.length; i++) {
-            espacios[i] = new Area();
+            espacios[i] = new Area(i + 1);
         }
         for (int i = 0; i < 5; i++) {
             Thread hiloPersona = new Thread(new Persona(espacios, numRandom.nextInt(20, 30)));
