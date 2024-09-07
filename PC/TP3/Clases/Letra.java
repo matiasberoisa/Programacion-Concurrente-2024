@@ -10,6 +10,7 @@ public class Letra implements Runnable {
     private Random numRandom = new Random();
     private String cadena;
     private Semaphore semaforo1;
+    private boolean termino = false;
 
     public Letra(String nn, String le, String ca, Semaphore se1) {
         nombre = nn;
@@ -28,6 +29,7 @@ public class Letra implements Runnable {
         try {
             semaforo1.acquire();
             this.concatenar();
+            termino = true;
             semaforo1.release();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -44,5 +46,9 @@ public class Letra implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean termino() {
+        return this.termino;
     }
 }

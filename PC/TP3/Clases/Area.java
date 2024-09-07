@@ -32,15 +32,19 @@ public class Area {
         return cant;
     }
 
-    public synchronized void reservar(Persona visitante) {
-        int cantidad = visitante.getCantReservas() + posicion;
+    public void reservar(Persona visitante) {
+        int contadorPosiciones = 0;
         try {
-            while (posicion < espacio.length && posicion < cantidad) {
+            while (espacio[posicion] != null) {
+                contadorPosiciones++;
+            }
+            while (posicion < espacio.length && posicion < (visitante.getCantReservas() + contadorPosiciones)) {
                 if (espacio[posicion] == null) {
                     System.out.println(
                             "la persona " + visitante.getNombre() + " ocupa el lugar " + (posicion + 1)
                                     + " del area "
                                     + numero);
+                    espacio[posicion] = null;
                     posicion++;
                 }
                 Thread.sleep(500);
