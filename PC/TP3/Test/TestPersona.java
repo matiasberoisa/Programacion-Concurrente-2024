@@ -1,7 +1,10 @@
-package PC.TP3;
+package PC.TP3.Test;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import PC.TP3.Clases.Area;
+import PC.TP3.Clases.Persona;
 
 public class TestPersona {
     public static void main(String[] args) {

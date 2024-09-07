@@ -1,4 +1,4 @@
-package PC.TP3;
+package PC.TP3.Clases;
 
 public class Area {
     private Persona[] espacio;
@@ -33,15 +33,21 @@ public class Area {
     }
 
     public synchronized void reservar(Persona visitante) {
+        int cantidad = visitante.getCantReservas() + posicion;
         try {
-            while (posicion < visitante.getCantReservas()) {
-                System.out.println(
-                        "la persona " + visitante.getNombre() + " ocupa el lugar " + posicion + " del area " + numero);
-                posicion++;
+            while (posicion < espacio.length && posicion < cantidad) {
+                if (espacio[posicion] == null) {
+                    System.out.println(
+                            "la persona " + visitante.getNombre() + " ocupa el lugar " + (posicion + 1)
+                                    + " del area "
+                                    + numero);
+                    posicion++;
+                }
                 Thread.sleep(500);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("fin de la reserva");
     }
 }

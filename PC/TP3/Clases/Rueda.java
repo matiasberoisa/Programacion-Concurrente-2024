@@ -1,4 +1,4 @@
-package PC.TP3;
+package PC.TP3.Clases;
 
 public class Rueda {
 

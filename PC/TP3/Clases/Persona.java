@@ -1,4 +1,4 @@
-package PC.TP3;
+package PC.TP3.Clases;
 
 import java.util.Random;
 import java.util.UUID;
@@ -28,24 +28,28 @@ public class Persona implements Runnable {
     }
 
     public void run() {
-        int pos = 0;
-        boolean reservado = false;
-        System.out.println("la persona " + this.nombre + " empieza a reservar");
-        while (!reservado && pos < areas.length) {
-            try {
-                if (areas[pos].cantEspaciosLibres() < this.cantReservas) {
+        System.out.println("la persona " + this.nombre + " desea reservar " + this.cantReservas + " lugares");
+        this.realizarReservas();
+    }
 
-                    System.out.println("el area " + (pos + 1) + " no tiene espacio suficiente");
-                    pos++;
-                } else {
-                    reservado = true;
-                    System.out.println("el area " + (pos + 1) + " tiene espacio para realizar la reserva");
-                    areas[pos].reservar(this);
-                }
+    public synchronized void realizarReservas() {
+        int pos = 0;
+        boolean reservar = false;
+        while (pos < areas.length && !reservar) {
+            if (areas[pos].cantEspaciosLibres() < this.cantReservas) {
+                System.out.println("el area " + (pos + 1) + " no tiene espacio suficiente");
+                pos++;
+            } else {
+                System.out.println(
+                        "el area " + (pos + 1) + " tiene espacio para realizar la reserva");
+                reservar = true;
+            }
+            try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        areas[pos].reservar(this);
     }
 }

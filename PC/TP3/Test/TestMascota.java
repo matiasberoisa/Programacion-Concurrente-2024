@@ -1,6 +1,12 @@
-package PC.TP3;
+package PC.TP3.Test;
 
 import java.util.ArrayList;
+
+import PC.TP3.Clases.Hamaca;
+import PC.TP3.Clases.Jaula;
+import PC.TP3.Clases.Mascotas;
+import PC.TP3.Clases.Plato;
+import PC.TP3.Clases.Rueda;
 
 public class TestMascota {
 
