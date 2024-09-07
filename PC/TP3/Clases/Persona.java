@@ -32,7 +32,7 @@ public class Persona implements Runnable {
         this.realizarReservas();
     }
 
-    public synchronized void realizarReservas() {
+    private synchronized void realizarReservas() {
         int pos = 0;
         boolean reservar = false;
         while (pos < areas.length && !reservar) {
