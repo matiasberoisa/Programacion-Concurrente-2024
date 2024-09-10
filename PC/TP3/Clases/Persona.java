@@ -2,24 +2,31 @@ package PC.TP3.Clases;
 
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.Semaphore;
 
 public class Persona implements Runnable {
     private String nombre;
     private Random numRandom = new Random();
     private int longDeseada;
-    private Area[] areas;
+    // private Area[] areas;
+    private Area unArea;
     private int cantReservas;
-    private Semaphore semaforo;
 
-    public Persona(Area[] ar, int cr, Semaphore se) {
+    public Persona(Area[] ar, int cr) {
         longDeseada = numRandom.nextInt(1, 10);
         this.nombre = UUID.randomUUID()
                 .toString()
                 .substring(0, longDeseada);
-        this.areas = ar;
+        // this.areas = ar;
         this.cantReservas = cr;
-        semaforo = se;
+    }
+
+    public Persona(Area ar, int cr) {
+        longDeseada = numRandom.nextInt(1, 10);
+        this.nombre = UUID.randomUUID()
+                .toString()
+                .substring(0, longDeseada);
+        this.unArea = ar;
+        this.cantReservas = cr;
     }
 
     public String getNombre() {
@@ -33,26 +40,41 @@ public class Persona implements Runnable {
     public void run() {
         System.out.println("la persona " + this.nombre + " desea reservar " + this.cantReservas + " lugares");
         try {
-            this.realizarReservas();
+            this.realizarReserva();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void realizarReservas() throws InterruptedException {
-        int pos = 0;
-        semaforo.acquire();
-        while (pos < areas.length) {
-            if (areas[pos].cantEspaciosLibres() < this.cantReservas) {
-                System.out.println("el area " + (pos + 1) + " no tiene espacio suficiente");
-                pos++;
-            } else {
-                System.out.println(
-                        "el area " + (pos + 1) + " tiene espacio para realizar la reserva");
-            }
-            Thread.sleep(1000);
+    /*
+     * private void realizarReservas() throws InterruptedException {
+     * int pos = 0;
+     * boolean encontrado = false;
+     * while (pos < areas.length && !encontrado) {
+     * if (areas[pos].cantEspaciosLibres() < this.cantReservas) {
+     * System.out.println("el area " + (pos + 1) + " no tiene espacio suficiente");
+     * pos++;
+     * } else {
+     * System.out.println(
+     * "el area " + (pos + 1) + " tiene espacio para realizar la reserva");
+     * areas[pos].reservar(this);
+     * encontrado = true;
+     * }
+     * }
+     * Thread.sleep(1000);
+     * }
+     */
+
+    private void realizarReserva() throws InterruptedException {
+        if (unArea.cantEspaciosLibres() > this.cantReservas) {
+            System.out.println("el area tiene espacio, la persona " + this.nombre + " comienza a reservar");
+            unArea.reservar(this);
+        } else {
+            System.out.println("el area no tiene espacio suficiente");
         }
-        areas[pos].reservar(this);
-        semaforo.release();
+        if (unArea.cantEspaciosLibres() != 0) {
+            System.out.println("quedan " + unArea.cantEspaciosLibres() + " espacios libres");
+        }
+        Thread.sleep(1000);
     }
 }

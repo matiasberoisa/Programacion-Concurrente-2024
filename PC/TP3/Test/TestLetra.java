@@ -1,12 +1,14 @@
 package PC.TP3.Test;
 
 import java.util.ArrayList;
+
+import PC.TP3.Clases.Cadena;
 import PC.TP3.Clases.Letra;
 
 public class TestLetra {
     public static void main(String[] args) {
         ArrayList<Thread> hiloLetras = new ArrayList<Thread>();
-        String cadena = "";
+        Cadena cadena = new Cadena();
         String[] simbolos = new String[3];
         Letra[] letras = new Letra[3];
         boolean terminado = false;
@@ -29,5 +31,6 @@ public class TestLetra {
                 terminado = true;
             }
         }
+        System.out.println(cadena.resultado());
     }
 }

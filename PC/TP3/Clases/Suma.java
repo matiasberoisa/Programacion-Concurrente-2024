@@ -16,28 +16,20 @@ public class Suma implements Runnable {
     public void run() {
         System.out.println("el hilo #" + this.numHilo + " realiza la suma");
         this.sumar();
-        System.out.println("el hilo #" + this.numHilo + " termino la suma");
         termino = true;
-
+        System.out.println("el hilo #" + this.numHilo + " termino la suma");
     }
 
-    public void sumar() {
-        int pos = 0, contadorPosiciones = 0;
-        synchronized (this) {
-            try {
-                while (numeros[pos] == null) {
-                    contadorPosiciones++;
-                    pos++;
-                }
-                while (pos < numeros.length && pos < (limite + contadorPosiciones)) {
-                    resultadoParcial += numeros[pos];
-                    numeros[pos] = null;
-                    pos++;
-                }
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public synchronized void sumar() {
+        int pos = 0;
+        try {
+            while (pos < numeros.length && pos < limite) {
+                resultadoParcial += numeros[pos];
+                pos++;
             }
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
