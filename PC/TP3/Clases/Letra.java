@@ -19,7 +19,6 @@ public class Letra implements Runnable {
 
     public void run() {
         String valor = "";
-        String[] hilos = new String[3];
         for (int i = 0; i < cantidad; i++) {
             valor = valor + letra;
         }
