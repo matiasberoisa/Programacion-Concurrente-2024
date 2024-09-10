@@ -3,7 +3,6 @@ package PC.TP3.Test;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.Semaphore;
 
 import PC.TP3.Clases.Suma;
 
