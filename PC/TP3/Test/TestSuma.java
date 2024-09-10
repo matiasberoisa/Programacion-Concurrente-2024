@@ -17,7 +17,6 @@ public class TestSuma {
         ArrayList<Thread> hilosSumas = new ArrayList<Thread>();
         Random numRandom = new Random();
         int cantidadHilos, limite, resultadoTotal = 0, pos = 0;
-        Semaphore semaforo = new Semaphore(1);
         System.out.println("ingresa la cantidad de hilos");
         cantidadHilos = dato.nextInt();
         sumas = new Suma[cantidadHilos];
@@ -26,7 +25,7 @@ public class TestSuma {
             numeros[i] = numRandom.nextInt(1, 10);
         }
         for (int i = 0; i < cantidadHilos; i++) {
-            sumas[i] = new Suma(numeros, i + 1, limite, semaforo);
+            sumas[i] = new Suma(numeros, i + 1, limite);
             Thread hiloSuma = new Thread(sumas[i]);
             hilosSumas.add(hiloSuma);
         }

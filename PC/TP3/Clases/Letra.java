@@ -1,7 +1,6 @@
 package PC.TP3.Clases;
 
 import java.util.Random;
-import java.util.concurrent.Semaphore;
 
 public class Letra implements Runnable {
     private String nombre;
@@ -9,40 +8,48 @@ public class Letra implements Runnable {
     private int cantidad;
     private Random numRandom = new Random();
     private String cadena;
-    private Semaphore semaforo1;
     private boolean termino = false;
 
-    public Letra(String nn, String le, String ca, Semaphore se1) {
+    public Letra(String nn, String le, String ca) {
         nombre = nn;
         letra = le;
         cantidad = numRandom.nextInt(1, 5);
         cadena = ca;
-        semaforo1 = se1;
     }
 
     public void run() {
         String valor = "";
+        boolean terminado = false;
+        String[] hilos = new String[3];
+        int pos = 0;
+        hilos[0] = "hiloA";
+        hilos[1] = "hiloB";
+        hilos[2] = "hiloC";
         for (int i = 0; i < cantidad; i++) {
             valor = valor + letra;
         }
         System.out.println(this.nombre + " concatena " + valor);
-        try {
-            semaforo1.acquire();
-            this.concatenar();
-            termino = true;
-            semaforo1.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (!terminado) {
+            if (pos < hilos.length) {
+                if (hilos[pos].equals(this.nombre)) {
+                    pos++;
+                    this.concatenar();
+                }
+            } else {
+                terminado = true;
+            }
         }
+
     }
 
-    private void concatenar() {
+    private synchronized void concatenar() {
         try {
             for (int i = 0; i < cantidad; i++) {
                 cadena = letra;
                 System.out.print(cadena);
                 Thread.sleep(1000);
             }
+            termino = true;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
