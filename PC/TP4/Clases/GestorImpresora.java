@@ -2,16 +2,24 @@ package Clases;
 
 public class GestorImpresora {
     private Impresora[] impresoras;
+    private Impresora[] impresoras2;
     private int posicion;
 
-    public GestorImpresora(Impresora[] imp, int cant) {
+    public GestorImpresora(Impresora[] imp) {
         impresoras = imp;
         posicion = 0;
     }
 
-    public Impresora buscarDisponible() {
+    public GestorImpresora(Impresora[] imp1, Impresora[] imp2) {
+        impresoras = imp1;
+        impresoras2 = imp2;
+        posicion = 0;
+    }
+
+    public synchronized Impresora buscarDisponible() {
         int pos = 0;
-        while (!impresoras[posicion].estado().equals("disponible") && posicion < impresoras.length) {
+
+        while (!impresoras[posicion].estado().equals("disponible") && posicion < impresoras.length - 1) {
             posicion++;
         }
         pos = posicion;

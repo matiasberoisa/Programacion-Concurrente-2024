@@ -19,7 +19,7 @@ public class TestCliente {
         for (int i = 0; i < cantidad; i++) {
             impresoras[i] = new Impresora(i + 1);
         }
-        GestorImpresora gestor = new GestorImpresora(impresoras, cantidad);
+        GestorImpresora gestor = new GestorImpresora(impresoras);
         while (true) {
             Thread hiloThread = new Thread(new Cliente(semaforoFila, semaforoImpresora, gestor));
             hiloThread.start();
