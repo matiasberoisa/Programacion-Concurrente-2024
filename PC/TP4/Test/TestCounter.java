@@ -2,8 +2,7 @@ package Test;
 
 import java.util.ArrayList;
 
-import Clases.SynchronizedCounter;
-import Clases.SynchronizedObjectCounter;
+import Clases.*;
 
 public class TestCounter {
     public static void main(String[] args) {

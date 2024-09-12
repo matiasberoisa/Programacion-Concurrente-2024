@@ -1,27 +1,27 @@
 package Clases;
 
 public class GestorImpresora {
-    private int numero;
-    private String estado;
+    private Impresora[] impresoras;
+    private int posicion;
 
-    public GestorImpresora(int num) {
-        numero = num;
-        estado = "disponible";
+    public GestorImpresora(Impresora[] imp, int cant) {
+        impresoras = imp;
+        posicion = 0;
     }
 
-    public int obtenerNumero() {
-        return this.numero;
+    public Impresora buscarDisponible() {
+        int pos = 0;
+        while (!impresoras[posicion].estado().equals("disponible") && posicion < impresoras.length) {
+            posicion++;
+        }
+        pos = posicion;
+        if (posicion == impresoras.length - 1) {
+            posicion = 0;
+        }
+        return this.impresoras[pos];
     }
 
-    public String estado() {
-        return this.estado;
-    }
-
-    public void usar() {
-        this.estado = "ocupada";
-    }
-
-    public void liberar() {
-        this.estado = "disponible";
+    public int getTamaño() {
+        return this.impresoras.length;
     }
 }
