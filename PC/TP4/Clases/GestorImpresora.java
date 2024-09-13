@@ -1,35 +1,42 @@
 package Clases;
 
 public class GestorImpresora {
-    private Impresora[] impresoras;
-    private Impresora[] impresoras2;
-    private int posicion;
-
-    public GestorImpresora(Impresora[] imp) {
-        impresoras = imp;
-        posicion = 0;
-    }
+    private Impresora[] impresorasA;
+    private Impresora[] impresorasB;
+    private int posicionA;
+    private int posicionB;
 
     public GestorImpresora(Impresora[] imp1, Impresora[] imp2) {
-        impresoras = imp1;
-        impresoras2 = imp2;
-        posicion = 0;
+        impresorasA = imp1;
+        impresorasB = imp2;
+        posicionA = 0;
+        posicionB = 0;
     }
 
-    public synchronized Impresora buscarDisponible() {
+    public synchronized Impresora buscarDisponibleTipo(String tipo) {
         int pos = 0;
-
-        while (!impresoras[posicion].estado().equals("disponible") && posicion < impresoras.length - 1) {
-            posicion++;
+        Impresora disponible = null;
+        if (tipo.equals("A")) {
+            while (!impresorasA[posicionA].estado().equals("disponible") && posicionA < impresorasA.length - 1) {
+                posicionA++;
+            }
+            pos = posicionA;
+            if (posicionA == impresorasA.length - 1) {
+                posicionA = 0;
+            }
+            disponible = impresorasA[pos];
         }
-        pos = posicion;
-        if (posicion == impresoras.length - 1) {
-            posicion = 0;
+        if (tipo.equals("B")) {
+            while (!impresorasB[posicionB].estado().equals("disponible") && posicionB < impresorasB.length - 1) {
+                posicionB++;
+            }
+            pos = posicionB;
+            if (posicionB == impresorasB.length - 1) {
+                posicionB = 0;
+            }
+            disponible = impresorasB[pos];
         }
-        return this.impresoras[pos];
+        return disponible;
     }
 
-    public int getTamaño() {
-        return this.impresoras.length;
-    }
 }

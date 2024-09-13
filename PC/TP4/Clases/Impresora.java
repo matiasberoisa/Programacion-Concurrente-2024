@@ -2,10 +2,12 @@ package Clases;
 
 public class Impresora {
     private int numero;
+    private String tipoImpresora;
     private String estado;
 
-    public Impresora(int num) {
+    public Impresora(int num, String ti) {
         numero = num;
+        tipoImpresora = ti;
         estado = "disponible";
     }
 
@@ -17,13 +19,19 @@ public class Impresora {
         return this.estado;
     }
 
+    public String obtenerTipo() {
+        return this.tipoImpresora;
+    }
+
     public synchronized void usar(Cliente unCliente) throws InterruptedException {
-        System.out.println("el cliente " + unCliente.obtenerNombre() + " usa la impresora " + this.numero);
+        System.out.println("el cliente " + unCliente.obtenerNombre() + " usa la impresora " + this.numero + ", tipo "
+                + this.tipoImpresora);
         this.estado = "ocupada";
     }
 
     public synchronized void liberar(Cliente unCliente) throws InterruptedException {
-        System.out.println("el cliente " + unCliente.obtenerNombre() + " libera la impresora " + this.numero);
+        System.out.println("el cliente " + unCliente.obtenerNombre() + " libera la impresora " + this.numero + ", tipo "
+                + this.tipoImpresora);
         this.estado = "disponible";
     }
 }
