@@ -14,7 +14,7 @@ public class TestCliente {
         String[] tipos = new String[3];
         Random random = new Random();
         Scanner dato = new Scanner(System.in);
-        Semaphore semaforoFila = new Semaphore(3);
+        Semaphore semaforoFila = new Semaphore(2);
         Semaphore semaforoImpresoraA = null;
         Semaphore semaforoImpresoraB = null;
         int posTipos, numA, numB;

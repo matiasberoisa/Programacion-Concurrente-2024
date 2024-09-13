@@ -38,6 +38,7 @@ public class Cliente implements Runnable {
                 disponibleB = gestor.buscarDisponibleTipo("B");
             }
             if (this.tipoImpresion.equals("A") || this.tipoImpresion.equals("B")) {
+                // si es de tipo A o tipo B la impresion
                 if (this.tipoImpresion.equals("A")) {
                     semaforoImpresoraA.acquire();
                     disponibleA.usar(this);
@@ -55,6 +56,7 @@ public class Cliente implements Runnable {
                     semaforoImpresoraB.release();
                 }
             } else {
+                // si es de tipo C, busca la impresora disponible mas cercana
                 if (disponibleA.obtenerTipo().equals("A")) {
                     semaforoImpresoraA.acquire();
                     disponibleA.usar(this);
