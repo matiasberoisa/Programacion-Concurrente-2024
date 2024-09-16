@@ -9,12 +9,14 @@ public class Letra implements Runnable {
     private Random numRandom = new Random();
     private Cadena cadena;
     private boolean termino = false;
+    private int turno;
 
-    public Letra(String nn, String le, Cadena ca) {
+    public Letra(String nn, String le, Cadena ca, int tur) {
         nombre = nn;
         letra = le;
         cantidad = numRandom.nextInt(1, 5);
         cadena = ca;
+        turno = tur;
     }
 
     public void run() {
@@ -38,6 +40,10 @@ public class Letra implements Runnable {
 
     public String obtenerNombre() {
         return this.nombre;
+    }
+
+    public int obtenerTurno() {
+        return this.turno;
     }
 
 }

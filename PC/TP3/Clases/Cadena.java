@@ -2,33 +2,24 @@ package PC.TP3.Clases;
 
 public class Cadena {
     private String cadena;
+    private int posicion;
+    private boolean disponible;
 
     public Cadena() {
         cadena = "";
+        posicion = 1;
     }
 
     public synchronized void concatenar(int cantidad, Letra unaLetra) {
-
-        boolean empiezaHiloA = false, empiezaHiloB = false, empiezaHiloC = false;
-        if (unaLetra.obtenerNombre().equals("hiloA")) {
-            empiezaHiloA = true;
-        }
-        if (unaLetra.obtenerNombre().equals("hiloB") && empiezaHiloA) {
-            empiezaHiloB = true;
-        }
-        if (unaLetra.obtenerNombre().equals("hiloB") && empiezaHiloB) {
-            empiezaHiloC = true;
-        }
+        int pos = 0;
         try {
-            for (int i = 0; i < cantidad; i++) {
-                if (empiezaHiloA) {
-                    if (empiezaHiloB) {
-                        if (empiezaHiloC) {
-                            cadena += unaLetra.obtenerLetra();
-                            Thread.sleep(1000);
-                        }
-                    }
+            if (unaLetra.obtenerTurno() == posicion) {
+                while (pos < cantidad) {
+                    cadena += unaLetra.obtenerLetra();
+                    Thread.sleep(1000);
+                    pos++;
                 }
+                posicion++;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -37,5 +28,9 @@ public class Cadena {
 
     public String resultado() {
         return this.cadena;
+    }
+
+    public boolean disponible() {
+        return this.disponible;
     }
 }
