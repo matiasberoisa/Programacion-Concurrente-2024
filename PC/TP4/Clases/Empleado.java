@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
-public class Empleado {
+public class Empleado implements Runnable {
     private String nombre;
     private Semaphore semaforoPedido;
     private Random numRandom = new Random();
@@ -19,5 +19,33 @@ public class Empleado {
         ;
         semaforoPedido = sp;
         laConfiteria = c;
+    }
+
+    public void run() {
+        try {
+            semaforoPedido.acquire();
+            System.out.println("el empleado " + this.nombre + " entra a la confiteria");
+            laConfiteria.ocuparMesa(this);
+            this.ordenar();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ordenar() {
+        String opcion = laConfiteria.obtenerOpcion(numRandom.nextInt(1, laConfiteria.obtenerLongitud()));
+        System.out.println("el empleado desea ordenar " + opcion);
+        laConfiteria.comenzarPedido(opcion);
+    }
+
+    public void comer() {
+        try {
+            System.out.println("el empleado empieza a comer");
+            Thread.sleep(3000);
+            System.out.println("el empleado termina de comer, agradece al mozo y desocupa la mesa");
+            laConfiteria.desocuparMesa();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

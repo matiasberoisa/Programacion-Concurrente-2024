@@ -28,49 +28,48 @@ public class Cliente implements Runnable {
     }
 
     public void run() {
-        Impresora disponibleA = null, disponibleB = null;
+        Impresora disponible1 = null, disponible2 = null;
         try {
             semaforoFila.acquire();
             System.out.println("avanza en la fila el cliente: " + this.nombre + ", utiliza impresora tipo: "
                     + this.tipoImpresion);
-            while (disponibleA == null && disponibleB == null) {
-                disponibleA = gestor.buscarDisponibleTipo("A");
-                disponibleB = gestor.buscarDisponibleTipo("B");
-            }
             if (this.tipoImpresion.equals("A") || this.tipoImpresion.equals("B")) {
                 // si es de tipo A o tipo B la impresion
+                disponible1 = buscarDisponible(this.tipoImpresion);
                 if (this.tipoImpresion.equals("A")) {
                     semaforoImpresoraA.acquire();
-                    disponibleA.usar(this);
+                    disponible1.usar(this);
                     semaforoFila.release();
                     Thread.sleep(3000);
-                    disponibleA.liberar(this);
+                    disponible1.liberar(this);
                     semaforoImpresoraA.release();
                 }
                 if (this.tipoImpresion.equals("B")) {
                     semaforoImpresoraB.acquire();
-                    disponibleB.usar(this);
+                    disponible1.usar(this);
                     semaforoFila.release();
                     Thread.sleep(3000);
-                    disponibleB.liberar(this);
+                    disponible1.liberar(this);
                     semaforoImpresoraB.release();
                 }
             } else {
                 // si es de tipo C, busca la impresora disponible mas cercana
-                if (disponibleA.obtenerTipo().equals("A")) {
+                disponible1 = buscarDisponible("A");
+                disponible2 = buscarDisponible("B");
+                if (disponible1.obtenerTipo().equals("A")) {
                     semaforoImpresoraA.acquire();
-                    disponibleA.usar(this);
+                    disponible1.usar(this);
                     semaforoFila.release();
                     Thread.sleep(3000);
-                    disponibleA.liberar(this);
+                    disponible1.liberar(this);
                     semaforoImpresoraA.release();
                 }
-                if (disponibleA.obtenerTipo().equals("B")) {
+                if (disponible2.obtenerTipo().equals("B")) {
                     semaforoImpresoraB.acquire();
-                    disponibleB.usar(this);
+                    disponible1.usar(this);
                     semaforoFila.release();
                     Thread.sleep(3000);
-                    disponibleB.liberar(this);
+                    disponible1.liberar(this);
                     semaforoImpresoraB.release();
                 }
             }
@@ -78,6 +77,14 @@ public class Cliente implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public Impresora buscarDisponible(String tipo) {
+        Impresora disponible = null;
+        while (disponible == null) {
+            disponible = gestor.buscarDisponibleTipo(tipo);
+        }
+        return disponible;
     }
 
     public String obtenerNombre() {
