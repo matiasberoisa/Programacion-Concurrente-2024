@@ -36,6 +36,7 @@ public class Confiteria {
 
     public void comenzarPedido(String opcion) {
         unMozo.realizarOrden(opcion);
+        llevarPedido();
     }
 
     public void llevarPedido() {

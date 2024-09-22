@@ -15,9 +15,8 @@ public class TestConfiteria {
         opciones[2] = "pollo Brasil";
         opciones[3] = "pollo Uruguay";
         opciones[4] = "pollo KFC";
-        unMozo = new Mozo(laConfiteria);
+        unMozo = new Mozo();
         laConfiteria = new Confiteria(unMozo, opciones);
-
         System.out.println("se abre la confiteria");
         Thread hiloMozo = new Thread(unMozo);
         hiloMozo.start();

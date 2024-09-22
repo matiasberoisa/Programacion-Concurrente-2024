@@ -27,15 +27,22 @@ public class Empleado implements Runnable {
             System.out.println("el empleado " + this.nombre + " entra a la confiteria");
             laConfiteria.ocuparMesa(this);
             this.ordenar();
+            semaforoPedido.release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void ordenar() {
-        String opcion = laConfiteria.obtenerOpcion(numRandom.nextInt(1, laConfiteria.obtenerLongitud()));
-        System.out.println("el empleado desea ordenar " + opcion);
-        laConfiteria.comenzarPedido(opcion);
+        try {
+            String opcion = laConfiteria.obtenerOpcion(numRandom.nextInt(1, laConfiteria.obtenerLongitud()));
+            System.out.println("el empleado desea ordenar " + opcion);
+            Thread.sleep(2000);
+            laConfiteria.comenzarPedido(opcion);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void comer() {
