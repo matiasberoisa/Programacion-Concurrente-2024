@@ -9,12 +9,10 @@ public class Confiteria {
     private Semaphore semaforoMesa = new Semaphore(0);
     private Semaphore semaforoEspera = new Semaphore(1);
     private String orden;
-    private Mozo unMozo;
 
-    public Confiteria(Mozo moz, String[] opc) {
+    public Confiteria(String[] opc) {
         opciones = opc;
         unEmpleado = null;
-        unMozo = moz;
     }
 
     public String obtenerOpcion(int numero) {
@@ -34,7 +32,6 @@ public class Confiteria {
 
     public void desocuparMesa() {
         mesaDisponible = true;
-        unMozo.descansar();
 
     }
 
@@ -44,7 +41,6 @@ public class Confiteria {
 
     public void comenzarPedido(String opcion) {
         orden = opcion;
-        unMozo.realizarOrden(opcion);
         llevarPedido();
     }
 
