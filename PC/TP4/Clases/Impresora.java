@@ -23,13 +23,13 @@ public class Impresora {
         return this.tipoImpresora;
     }
 
-    public synchronized void usar(Cliente unCliente) throws InterruptedException {
+    public void usar(Cliente unCliente) throws InterruptedException {
         System.out.println("el cliente " + unCliente.obtenerNombre() + " usa la impresora " + this.numero + ", tipo "
                 + this.tipoImpresora);
         this.estado = "ocupada";
     }
 
-    public synchronized void liberar(Cliente unCliente) throws InterruptedException {
+    public void liberar(Cliente unCliente) throws InterruptedException {
         System.out.println("el cliente " + unCliente.obtenerNombre() + " libera la impresora " + this.numero + ", tipo "
                 + this.tipoImpresora);
         this.estado = "disponible";

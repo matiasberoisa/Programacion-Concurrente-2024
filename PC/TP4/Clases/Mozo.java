@@ -7,13 +7,14 @@ public class Mozo implements Runnable {
     private String nombre;
     private Random numRandom = new Random();
     private int longDeseada;
+    private Confiteria laConfiteria;
 
-    public Mozo() {
+    public Mozo(Confiteria c) {
         longDeseada = numRandom.nextInt(1, 10);
         this.nombre = UUID.randomUUID()
                 .toString()
                 .substring(0, longDeseada);
-        ;
+        laConfiteria = c;
     }
 
     public void run() {
@@ -25,6 +26,7 @@ public class Mozo implements Runnable {
 
     public void realizarOrden(String orden) {
         try {
+            laConfiteria.tomarPedido();
             System.out.println("el mozo prepara " + orden);
             Thread.sleep(3000);
             System.out.println("el mozo lleva " + orden);
@@ -41,4 +43,5 @@ public class Mozo implements Runnable {
             e.printStackTrace();
         }
     }
+
 }

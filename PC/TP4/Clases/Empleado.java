@@ -6,31 +6,22 @@ import java.util.concurrent.Semaphore;
 
 public class Empleado implements Runnable {
     private String nombre;
-    private Semaphore semaforoPedido;
     private Random numRandom = new Random();
     private int longDeseada;
     private Confiteria laConfiteria;
 
-    public Empleado(Semaphore sp, Confiteria c) {
+    public Empleado(Confiteria c) {
         longDeseada = numRandom.nextInt(1, 10);
         this.nombre = UUID.randomUUID()
                 .toString()
                 .substring(0, longDeseada);
-        ;
-        semaforoPedido = sp;
         laConfiteria = c;
     }
 
     public void run() {
-        try {
-            semaforoPedido.acquire();
-            System.out.println("el empleado " + this.nombre + " entra a la confiteria");
-            laConfiteria.ocuparMesa(this);
-            this.ordenar();
-            semaforoPedido.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("el empleado " + this.nombre + " entra a la confiteria");
+        laConfiteria.ocuparMesa(this);
+        this.ordenar();
     }
 
     public void ordenar() {

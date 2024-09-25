@@ -13,7 +13,7 @@ public class GestorImpresora {
         posicionB = 0;
     }
 
-    public synchronized Impresora buscarDisponibleTipo(String tipo) {
+    public Impresora buscarDisponibleTipo(String tipo) {
         int pos = 0;
         Impresora disponible = null;
         if (tipo.equals("A")) {
