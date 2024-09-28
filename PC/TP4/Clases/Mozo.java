@@ -20,16 +20,26 @@ public class Mozo implements Runnable {
     public void run() {
         System.out.println("el mozo " + this.nombre + " comienza a trabajar");
         while (true) {
-
+            if (laConfiteria.mesaDisponible()) {
+                laConfiteria.tomarPedido();
+                realizarOrden();
+                if (laConfiteria.mesaDisponible()) {
+                    while (!laConfiteria.mesaDisponible()) {
+                    }
+                }
+                descansar();
+            }
         }
     }
 
-    public void realizarOrden(String orden) {
+    public void realizarOrden() {
+        String orden = "";
         try {
-            laConfiteria.tomarPedido();
+            orden = laConfiteria.obtenerOrden();
             System.out.println("el mozo prepara " + orden);
             Thread.sleep(3000);
             System.out.println("el mozo lleva " + orden);
+            laConfiteria.llevarPedido();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

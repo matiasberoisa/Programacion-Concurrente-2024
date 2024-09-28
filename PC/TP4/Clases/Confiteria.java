@@ -7,7 +7,6 @@ public class Confiteria {
     private Empleado unEmpleado;
     private boolean mesaDisponible;
     private Semaphore semaforoMesa = new Semaphore(0);
-    private Semaphore semaforoEspera = new Semaphore(1);
     private String orden;
 
     public Confiteria(String[] opc) {
@@ -32,7 +31,11 @@ public class Confiteria {
 
     public void desocuparMesa() {
         mesaDisponible = true;
-
+        try {
+            semaforoMesa.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public Boolean mesaDisponible() {
@@ -41,16 +44,22 @@ public class Confiteria {
 
     public void comenzarPedido(String opcion) {
         orden = opcion;
-        llevarPedido();
     }
 
     public void llevarPedido() {
         unEmpleado.comer();
+        semaforoMesa.release();
     }
 
     public void tomarPedido() {
-        semaforoMesa.acquire();
-        //
-        //
+        try {
+            semaforoMesa.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String obtenerOrden() {
+        return this.orden;
     }
 }

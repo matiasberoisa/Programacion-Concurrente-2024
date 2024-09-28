@@ -21,7 +21,7 @@ public class Surtidor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("el auto " + unAuto.getPatente() + " termina de conducir y continua conduciendo");
+            System.out.println("el auto " + unAuto.getPatente() + " termina de llenar y continua conduciendo");
         } else {
             System.out.println("el surtidor no tiene nafta, el auto " + unAuto.getPatente() + " no cargo nafta");
         }

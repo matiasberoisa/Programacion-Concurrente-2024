@@ -9,19 +9,26 @@ public class Empleado implements Runnable {
     private Random numRandom = new Random();
     private int longDeseada;
     private Confiteria laConfiteria;
+    private Semaphore semaforoMesa;
 
-    public Empleado(Confiteria c) {
+    public Empleado(Confiteria c, Semaphore sm) {
         longDeseada = numRandom.nextInt(1, 10);
         this.nombre = UUID.randomUUID()
                 .toString()
                 .substring(0, longDeseada);
         laConfiteria = c;
+        semaforoMesa = sm;
     }
 
     public void run() {
-        System.out.println("el empleado " + this.nombre + " entra a la confiteria");
-        laConfiteria.ocuparMesa(this);
-        this.ordenar();
+        try {
+            semaforoMesa.acquire();
+            System.out.println("el empleado " + this.nombre + " entra a la confiteria");
+            laConfiteria.ocuparMesa(this);
+            this.ordenar();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void ordenar() {
@@ -42,8 +49,10 @@ public class Empleado implements Runnable {
             Thread.sleep(3000);
             System.out.println("el empleado termina de comer, agradece al mozo y desocupa la mesa");
             laConfiteria.desocuparMesa();
+            semaforoMesa.release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
+
 }

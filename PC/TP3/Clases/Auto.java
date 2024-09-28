@@ -50,10 +50,9 @@ public class Auto implements Runnable {
 
     public void run() {
         System.out.println("el auto " + this.toString() + " empieza a circular");
-        int litros = cantLitro;
         while (cantLitro > 0) {
             this.conducir();
         }
-        unSurtidor.cargarAuto(this, litros);
+        unSurtidor.cargarAuto(this, cantLitro);
     }
 }
