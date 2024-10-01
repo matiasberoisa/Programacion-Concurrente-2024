@@ -14,18 +14,18 @@ public class ControladorProduccion {
         semaforoLineaMecanico = new Semaphore(0);
         semaforoControl = new Semaphore(0);
         semaforoElemento = new Semaphore(1);
-        contadorProducto = 1;
+        contadorProducto = 0;
     }
 
     public void cambiaLineas(String tipo) {
         try {
             if (tipo.equals("Mecanico")) {
-                semaforoLineaElectrico.release();
-                semaforoLineaMecanico.acquire();
-            }
-            if (tipo.equals("Electrico")) {
                 semaforoLineaElectrico.acquire();
                 semaforoLineaMecanico.release();
+            }
+            if (tipo.equals("Electrico")) {
+                semaforoLineaMecanico.acquire();
+                semaforoLineaElectrico.release();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -37,6 +37,7 @@ public class ControladorProduccion {
         try {
             System.out.println("sale un producto de la linea");
             Thread.sleep(1000);
+            this.liberarLineaEnsamblaje();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -45,14 +46,13 @@ public class ControladorProduccion {
     public void controlar() {
         try {
             semaforoControl.acquire();
-            contadorProducto++;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void realizarCambio() {
-        if (contadorProducto % 5 == 0) {
+        if (contadorProducto % 3 == 0) {
             semaforoControl.release();
         }
     }
@@ -67,5 +67,17 @@ public class ControladorProduccion {
 
     public void liberarLineaEnsamblaje() {
         semaforoElemento.release();
+    }
+
+    public void contarProducto() {
+        contadorProducto++;
+    }
+
+    public boolean puedeIngresarElectrico() {
+        return semaforoLineaElectrico.tryAcquire();
+    }
+
+    public boolean puedeIngresarMecanico() {
+        return semaforoLineaMecanico.tryAcquire();
     }
 }

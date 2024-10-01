@@ -10,10 +10,10 @@ public class Control implements Runnable {
     public void run() {
         while (true) {
             elControlador.controlar();
-            System.out.println("CAMBIO DE LINEA, NORTE A OESTE");
+            System.out.println("////////////////////CAMBIO DE LINEA, NORTE A OESTE////////////////////");
             elControlador.cambiaLineas("Mecanico");
             elControlador.controlar();
-            System.out.println("CAMBIO DE LINEA, OESTE A NORTE");
+            System.out.println("////////////////////CAMBIO DE LINEA, OESTE A NORTE////////////////////");
             elControlador.cambiaLineas("Electrico");
         }
     }
