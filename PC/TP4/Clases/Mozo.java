@@ -1,34 +1,20 @@
 package Clases;
 
-import java.util.Random;
-import java.util.UUID;
-
 public class Mozo implements Runnable {
-    private String nombre;
-    private Random numRandom = new Random();
-    private int longDeseada;
     private Confiteria laConfiteria;
 
     public Mozo(Confiteria c) {
-        longDeseada = numRandom.nextInt(1, 10);
-        this.nombre = UUID.randomUUID()
-                .toString()
-                .substring(0, longDeseada);
         laConfiteria = c;
     }
 
     public void run() {
-        System.out.println("el mozo " + this.nombre + " comienza a trabajar");
+        System.out.println("el mozo comienza a trabajar");
         while (true) {
-            if (laConfiteria.mesaDisponible()) {
-                laConfiteria.tomarPedido();
-                realizarOrden();
-                if (laConfiteria.mesaDisponible()) {
-                    while (!laConfiteria.mesaDisponible()) {
-                    }
-                }
-                descansar();
-            }
+            laConfiteria.atender();
+            realizarOrden();
+            laConfiteria.vigilar();
+            descansar();
+            laConfiteria.limpiarMesa();
         }
     }
 

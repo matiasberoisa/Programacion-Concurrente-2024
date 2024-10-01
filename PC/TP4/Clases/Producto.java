@@ -8,6 +8,7 @@ public class Producto {
         tipo = ti;
     }
 
-    public void llegaProducto() {
+    public String getTipo() {
+        return this.tipo;
     }
 }

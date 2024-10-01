@@ -4,14 +4,17 @@ import java.util.concurrent.Semaphore;
 
 public class Confiteria {
     private String[] opciones;
-    private Empleado unEmpleado;
     private boolean mesaDisponible;
-    private Semaphore semaforoMesa = new Semaphore(0);
+    private Semaphore semaforoMesa;
+    private Semaphore semaforoAtender;
+    private Semaphore semaforoEmpleado;
     private String orden;
 
     public Confiteria(String[] opc) {
         opciones = opc;
-        unEmpleado = null;
+        semaforoMesa = new Semaphore(0);
+        semaforoAtender = new Semaphore(0);
+        semaforoEmpleado = new Semaphore(1);
     }
 
     public String obtenerOpcion(int numero) {
@@ -23,19 +26,18 @@ public class Confiteria {
     }
 
     public void ocuparMesa(Empleado nuEmpleado) {
-        this.unEmpleado = nuEmpleado;
-        mesaDisponible = false;
-        semaforoMesa.release();
+        try {
+            semaforoEmpleado.acquire();
+            mesaDisponible = false;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void desocuparMesa() {
         mesaDisponible = true;
-        try {
-            semaforoMesa.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        semaforoAtender.release();
     }
 
     public Boolean mesaDisponible() {
@@ -44,16 +46,16 @@ public class Confiteria {
 
     public void comenzarPedido(String opcion) {
         orden = opcion;
+        semaforoAtender.release();
     }
 
     public void llevarPedido() {
-        unEmpleado.comer();
         semaforoMesa.release();
     }
 
-    public void tomarPedido() {
+    public void atender() {
         try {
-            semaforoMesa.acquire();
+            semaforoAtender.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -61,5 +63,25 @@ public class Confiteria {
 
     public String obtenerOrden() {
         return this.orden;
+    }
+
+    public void esperar() {
+        try {
+            semaforoMesa.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void vigilar() {
+        try {
+            semaforoAtender.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void limpiarMesa() {
+        semaforoEmpleado.release();
     }
 }

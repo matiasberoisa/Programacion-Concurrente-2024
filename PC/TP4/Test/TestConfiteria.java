@@ -1,14 +1,11 @@
 package Test;
 
-import java.util.concurrent.Semaphore;
-
 import Clases.*;
 
 public class TestConfiteria {
     public static void main(String[] args) {
         String[] opciones = new String[5];
         Confiteria laConfiteria = null;
-        Semaphore semaphore = new Semaphore(1);
         Mozo unMozo = null;
         opciones[0] = "pollo Argentina";
         opciones[1] = "pollo Chile";
@@ -21,7 +18,7 @@ public class TestConfiteria {
         Thread hiloMozo = new Thread(unMozo);
         hiloMozo.start();
         while (true) {
-            Thread hiloEmpleado = new Thread(new Empleado(laConfiteria, semaphore));
+            Thread hiloEmpleado = new Thread(new Empleado(laConfiteria));
             hiloEmpleado.start();
         }
     }
