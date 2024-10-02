@@ -12,16 +12,16 @@ public class Mozo implements Runnable {
         while (true) {
             laConfiteria.atender();
             realizarOrden();
-            laConfiteria.vigilar();
+            laConfiteria.vigilarMozo();
             descansar();
-            laConfiteria.limpiarMesa();
+            laConfiteria.habilitarMesa();
         }
     }
 
     public void realizarOrden() {
         String orden = "";
         try {
-            orden = laConfiteria.obtenerOrden();
+            orden = laConfiteria.obtenerOrdenBebida();
             System.out.println("el mozo prepara " + orden);
             Thread.sleep(3000);
             System.out.println("el mozo lleva " + orden);

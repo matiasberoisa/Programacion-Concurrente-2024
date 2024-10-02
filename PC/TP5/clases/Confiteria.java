@@ -10,16 +10,20 @@ public class Confiteria {
     private Semaphore semaforoAtender;
     private Semaphore semaforoEmpleado;
     private Semaphore semaforoCocinar;
-    private String orden;
+    private String ordenComida;
+    private String ordenBebida;
 
     public Confiteria(String[] opciones1, String[] opciones2) {
         opcionesComida = opciones1;
         opcionesBebida = opciones2;
         semaforoMesa = new Semaphore(0);
         semaforoAtender = new Semaphore(0);
-        semaforoEmpleado = new Semaphore(2);
         semaforoCocinar = new Semaphore(0);
+        semaforoEmpleado = new Semaphore(2);
+
     }
+
+    // metodos referidos a la orden de elementos
 
     public String obtenerOpcionComida(int numero) {
         return this.opcionesComida[numero];
@@ -37,6 +41,20 @@ public class Confiteria {
         return this.opcionesBebida.length;
     }
 
+    public String obtenerOrdenComida() {
+        return this.ordenComida;
+    }
+
+    public String obtenerOrdenBebida() {
+        return this.ordenBebida;
+    }
+
+    public Boolean mesaDisponible() {
+        return this.mesaDisponible;
+    }
+
+    // metodos referidos a los semaforos
+
     public void ocuparMesa(Empleado nuEmpleado) {
         try {
             semaforoEmpleado.acquire();
@@ -47,18 +65,20 @@ public class Confiteria {
 
     }
 
-    public void desocuparMesa() {
+    public void desocuparMesa(int opcionPedidos) {
         mesaDisponible = true;
-        semaforoAtender.release();
-    }
-
-    public Boolean mesaDisponible() {
-        return this.mesaDisponible;
-    }
-
-    public void comenzarPedido(String opcion) {
-        orden = opcion;
-        semaforoAtender.release();
+        switch (opcionPedidos) {
+            case 1:
+                semaforoAtender.release();
+                break;
+            case 2:
+                semaforoCocinar.release();
+                break;
+            default:
+                semaforoAtender.release();
+                semaforoCocinar.release();
+                break;
+        }
     }
 
     public void llevarPedido() {
@@ -73,10 +93,6 @@ public class Confiteria {
         }
     }
 
-    public String obtenerOrden() {
-        return this.orden;
-    }
-
     public void esperar() {
         try {
             semaforoMesa.acquire();
@@ -85,7 +101,7 @@ public class Confiteria {
         }
     }
 
-    public void vigilar() {
+    public void vigilarMozo() {
         try {
             semaforoAtender.acquire();
         } catch (InterruptedException e) {
@@ -93,7 +109,25 @@ public class Confiteria {
         }
     }
 
-    public void limpiarMesa() {
+    public void vigilarCocinero() {
+        try {
+            semaforoCocinar.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void habilitarMesa() {
         semaforoEmpleado.release();
+    }
+
+    public void realizarPedidoComida(String opcion) {
+        ordenComida = opcion;
+        semaforoCocinar.release();
+    }
+
+    public void realizarPedidoBebida(String opcion) {
+        ordenBebida = opcion;
+        semaforoAtender.release();
     }
 }
