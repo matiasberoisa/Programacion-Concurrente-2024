@@ -96,7 +96,7 @@ public class Empleado implements Runnable {
             System.out.println("el empleado recibe su comida y comienza a comer");
             Thread.sleep(3000);
             System.out.println("el empleado termino, agradece a ambos y desocupa la mesa");
-            laConfiteria.desocuparMesa(3);
+            laConfiteria.desocuparMesa(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -74,10 +74,6 @@ public class Confiteria {
             case 2:
                 semaforoCocinar.release();
                 break;
-            default:
-                semaforoAtender.release();
-                semaforoCocinar.release();
-                break;
         }
     }
 
