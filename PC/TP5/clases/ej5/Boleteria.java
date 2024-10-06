@@ -4,10 +4,12 @@ import java.util.concurrent.Semaphore;
 
 public class Boleteria {
     private Semaphore semaforoVenta;
+    private Semaphore semaforoFila;
     private int numeroTicket;
 
     public Boleteria() {
-        semaforoVenta = new Semaphore(1);
+        semaforoVenta = new Semaphore(0);
+        semaforoFila = new Semaphore(1);
         numeroTicket = 0;
     }
 
@@ -26,5 +28,17 @@ public class Boleteria {
 
     public int numeroTicket() {
         return this.numeroTicket;
+    }
+
+    public void ponerseEnLaFila() {
+        try {
+            semaforoFila.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dejarFila() {
+        semaforoFila.release();
     }
 }
