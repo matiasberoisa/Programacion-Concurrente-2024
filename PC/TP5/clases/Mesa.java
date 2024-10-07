@@ -12,4 +12,20 @@ public class Mesa {
         ordenBebida = oB;
         tipoOrden = ti;
     }
+
+    public int getNumero() {
+        return this.numero;
+    }
+
+    public String getOrdenComida() {
+        return this.ordenComida;
+    }
+
+    public String getOrdenBebida() {
+        return this.ordenBebida;
+    }
+
+    public int getTipoOrden() {
+        return this.tipoOrden;
+    }
 }
