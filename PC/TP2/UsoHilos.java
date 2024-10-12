@@ -1,15 +1,15 @@
-package PC.TP2;
+package TP2;
 
 public class UsoHilos {
     public static void main(String[] args) {
         System.out.println("Hilo principal iniciando.");
         // Primero, construye un objeto unHilo.
-        //unHilo mh=new unHilo("#1");
+        // unHilo mh=new unHilo("#1");
         Hilo hilo1 = new Hilo("#1");
         Hilo hilo2 = new Hilo("#2");
         Hilo hilo3 = new Hilo("#3");
         // Luego, construye un hilo de ese objeto.
-        //Thread nuevoHilo=new Thread(mh);
+        // Thread nuevoHilo=new Thread(mh);
         // Finalmente, comienza la ejecución del hilo.
         hilo1.start();
         hilo2.start();

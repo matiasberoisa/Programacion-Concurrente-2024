@@ -1,4 +1,4 @@
-package PC.TP2;
+package TP2;
 
 public class Cliente {
     private String nombre;

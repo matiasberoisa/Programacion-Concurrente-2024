@@ -1,4 +1,4 @@
-package PC.TP2;
+package TP2;
 
 import java.util.ArrayList;
 import java.util.Random;

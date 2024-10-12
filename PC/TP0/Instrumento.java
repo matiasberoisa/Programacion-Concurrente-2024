@@ -1,11 +1,14 @@
-package PC.TP0;
+package TP0;
 
 class Instrumento {
-public void tocar() {
-System.out.println("Instrumento.tocar()");
-}
-public String tipo() {
-return "Instrumento";
-}
-public void afinar() {}
+    public void tocar() {
+        System.out.println("Instrumento.tocar()");
+    }
+
+    public String tipo() {
+        return "Instrumento";
+    }
+
+    public void afinar() {
+    }
 }

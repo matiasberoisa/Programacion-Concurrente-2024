@@ -1,4 +1,5 @@
-package PC.TP1;
+package TP1;
+
 public class excepcion {
     public static double acceso_por_indice(double[] v, int j)
             throws RuntimeException {

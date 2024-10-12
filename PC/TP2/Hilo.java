@@ -1,4 +1,4 @@
-package PC.TP2;
+package TP2;
 
 class Hilo extends Thread {
     public Hilo(String nombre) {

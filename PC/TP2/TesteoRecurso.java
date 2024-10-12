@@ -1,4 +1,4 @@
-package PC.TP2;
+package TP2;
 
 public class TesteoRecurso {
     public static void main(String[] args) {
