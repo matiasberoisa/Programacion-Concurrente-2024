@@ -3,81 +3,35 @@ package Clases;
 import java.util.concurrent.Semaphore;
 
 public class ControladorProduccion {
-    private Semaphore semaforoLineaElectrico;
-    private Semaphore semaforoLineaMecanico;
-    private Semaphore semaforoElemento;
-    private Semaphore semaforoControl;
-    private int contadorProducto;
+    private Semaphore semaforoLinea;
+    private String lineaActual;
 
     public ControladorProduccion() {
-        semaforoLineaElectrico = new Semaphore(1);
-        semaforoLineaMecanico = new Semaphore(0);
-        semaforoControl = new Semaphore(0);
-        semaforoElemento = new Semaphore(1);
-        contadorProducto = 0;
+        semaforoLinea = new Semaphore(1);
+        lineaActual = "Electrico";
     }
 
-    public void cambiaLineas(String tipo) {
+    public void cambiarLinea(String tipo) {
+        lineaActual = tipo;
+    }
+
+    public void puedeIngresar(Producto unProducto) {
         try {
-            if (tipo.equals("Mecanico")) {
-                semaforoLineaElectrico.acquire();
-                semaforoLineaMecanico.release();
+            semaforoLinea.acquire();
+            if (unProducto.getTipo().equals(lineaActual)) {
+                System.out.println("el producto " + unProducto.getTipo() + " n° " + unProducto.getNumero()
+                        + " entra a la linea de ensamblaje");
+                Thread.sleep(1000);
+                System.out.println("se comienza a ensamblar el producto " + unProducto.getTipo() + " n° "
+                        + unProducto.getNumero());
+                Thread.sleep(3000);
+                System.out.println(
+                        "el producto " + unProducto.getTipo() + " n° " + unProducto.getNumero()
+                                + " termina el ensamblaje y sale de la linea");
             }
-            if (tipo.equals("Electrico")) {
-                semaforoLineaMecanico.acquire();
-                semaforoLineaElectrico.release();
-            }
+            semaforoLinea.release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public void sale() {
-        try {
-            System.out.println("sale un producto de la linea");
-            Thread.sleep(1000);
-            this.liberarLineaEnsamblaje();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void controlar() {
-        try {
-            semaforoControl.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void realizarCambio() {
-        if (contadorProducto % 3 == 0) {
-            semaforoControl.release();
-        }
-    }
-
-    public void ocuparLineaEnsamblaje() {
-        try {
-            semaforoElemento.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void liberarLineaEnsamblaje() {
-        semaforoElemento.release();
-    }
-
-    public void contarProducto() {
-        contadorProducto++;
-    }
-
-    public boolean puedeIngresarElectrico() {
-        return semaforoLineaElectrico.tryAcquire();
-    }
-
-    public boolean puedeIngresarMecanico() {
-        return semaforoLineaMecanico.tryAcquire();
     }
 }

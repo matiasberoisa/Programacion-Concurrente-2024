@@ -7,13 +7,11 @@ public class TestControlador {
         ControladorProduccion elControladorProduccion = new ControladorProduccion();
         Thread hiloControl = new Thread(new Control(elControladorProduccion));
         hiloControl.start();
-        int i = 1;
-        while (i <= 10) {
-            Thread hiloElectrico = new Thread(new Electrico(elControladorProduccion, i));
-            Thread hiloMecanico = new Thread(new Mecanico(elControladorProduccion, i));
+        for (int j = 1; j <= 10; j++) {
+            Thread hiloElectrico = new Thread(new Electrico(elControladorProduccion, j));
+            Thread hiloMecanico = new Thread(new Mecanico(elControladorProduccion, j));
             hiloElectrico.start();
             hiloMecanico.start();
-            i++;
         }
     }
 }
