@@ -1,4 +1,4 @@
-package PC.TP5.clases;
+package TP5.clases;
 
 import java.util.concurrent.Semaphore;
 

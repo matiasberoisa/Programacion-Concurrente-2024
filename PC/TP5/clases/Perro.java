@@ -1,4 +1,4 @@
-package PC.TP5.clases;
+package TP5.clases;
 
 public class Perro extends Animal implements Runnable {
     private Comedor elComedor;

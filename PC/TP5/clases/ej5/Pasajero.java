@@ -1,4 +1,4 @@
-package PC.TP5.clases.ej5;
+package TP5.clases.ej5;
 
 import java.util.Random;
 import java.util.UUID;

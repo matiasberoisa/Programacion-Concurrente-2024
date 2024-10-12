@@ -1,4 +1,4 @@
-package PC.TP3.Clases;
+package TP3.Clases;
 
 public class VerificarCuenta implements Runnable {
     private CuentaBanco cb = new CuentaBanco();

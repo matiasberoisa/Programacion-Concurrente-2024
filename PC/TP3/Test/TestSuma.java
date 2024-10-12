@@ -1,10 +1,10 @@
-package PC.TP3.Test;
+package TP3.Test;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import PC.TP3.Clases.Suma;
+import TP3.Clases.Suma;
 
 public class TestSuma {
     public static void main(String[] args) {

@@ -1,53 +1,35 @@
-package PC.TP6.clases;
-
-import java.util.concurrent.Semaphore;
+package TP6.clases;
 
 public class Carril {
-    private Semaphore semaforoCarrilNorte;
-    private Semaphore semaforoCarrilSur;
-    private Semaphore semaforoCircular;
+    private String direccionActual;
+    private boolean listo = false;
 
     public Carril() {
-        semaforoCarrilNorte = new Semaphore(1);
-        semaforoCarrilSur = new Semaphore(0);
-        semaforoCircular = new Semaphore(1);
+        direccionActual = "Norte";
     }
 
-    public void circular() {
-        try {
-            semaforoCircular.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public synchronized void EntrarCocheDelNorte() throws InterruptedException {
+        while (!listo) {
+            wait(); // Espera hasta que otro hilo llame a notify
         }
+        System.out.println("Continuando...");
     }
 
-    public void liberar() {
-        semaforoCircular.release();
+    public synchronized void listoNorte() {
+        listo = true;
+        notify(); // Notifica a los hilos en espera
     }
 
-    public void norteASur() {
-        try {
-            semaforoCarrilNorte.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public synchronized void EntrarCocheDelSur() throws InterruptedException {
+        while (listo) {
+            wait(); // Espera hasta que otro hilo llame a notify
         }
-        semaforoCarrilSur.release();
+        System.out.println("Continuando...");
     }
 
-    public void surANorte() {
-        try {
-            semaforoCarrilSur.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        semaforoCarrilNorte.release();
+    public synchronized void listoSur() {
+        listo = false;
+        notify(); // Notifica a los hilos en espera
     }
 
-    public boolean puedeCruzarNorte() {
-        return semaforoCarrilNorte.tryAcquire();
-    }
-
-    public boolean puedeCruzarSur() {
-        return semaforoCarrilSur.tryAcquire();
-    }
 }

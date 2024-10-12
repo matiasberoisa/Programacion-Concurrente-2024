@@ -1,6 +1,6 @@
-package PC.TP5.Test;
+package TP5.Test;
 
-import PC.TP5.clases.*;
+import TP5.clases.*;
 
 public class TestPiscina {
     public static void main(String[] args) {

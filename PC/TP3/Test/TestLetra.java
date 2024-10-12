@@ -1,9 +1,8 @@
-package PC.TP3.Test;
+package TP3.Test;
 
 import java.util.ArrayList;
 
-import PC.TP3.Clases.Cadena;
-import PC.TP3.Clases.Letra;
+import TP3.Clases.*;
 
 public class TestLetra {
     public static void main(String[] args) {

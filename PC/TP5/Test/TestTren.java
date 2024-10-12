@@ -1,6 +1,6 @@
-package PC.TP5.Test;
+package TP5.Test;
 
-import PC.TP5.clases.ej5.*;
+import TP5.clases.ej5.*;
 
 public class TestTren {
     public static void main(String[] args) {

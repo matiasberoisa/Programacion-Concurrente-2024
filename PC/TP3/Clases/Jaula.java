@@ -1,4 +1,4 @@
-package PC.TP3.Clases;
+package TP3.Clases;
 
 public class Jaula {
     private Hamaca miHamaca;

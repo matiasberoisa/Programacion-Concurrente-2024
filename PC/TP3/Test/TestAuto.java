@@ -1,9 +1,8 @@
-package PC.TP3.Test;
+package TP3.Test;
 
 import java.util.ArrayList;
 
-import PC.TP3.Clases.Auto;
-import PC.TP3.Clases.Surtidor;
+import TP3.Clases.*;
 
 public class TestAuto {
     public static void main(String[] args) {
