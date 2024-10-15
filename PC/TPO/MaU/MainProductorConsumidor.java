@@ -1,4 +1,4 @@
-package TPO.MaU;
+package MaU;
 
 import java.util.Scanner;
 

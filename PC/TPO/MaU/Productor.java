@@ -1,4 +1,4 @@
-package TPO.MaU;
+package MaU;
 
 public class Productor implements Runnable {
     private String id;

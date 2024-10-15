@@ -1,4 +1,4 @@
-package TPO.MaM;
+package MaM;
 
 public class Productor implements Runnable {
     private String id;

@@ -1,4 +1,4 @@
-package TPO.MaM;
+package MaM;
 
 import java.util.Scanner;
 

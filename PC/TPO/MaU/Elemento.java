@@ -1,4 +1,4 @@
-package TPO.MaU;
+package MaU;
 
 public class Elemento {
     private String id;

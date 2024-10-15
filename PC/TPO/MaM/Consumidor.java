@@ -1,4 +1,4 @@
-package TPO.MaM;
+package MaM;
 
 public class Consumidor implements Runnable {
     private String id;
