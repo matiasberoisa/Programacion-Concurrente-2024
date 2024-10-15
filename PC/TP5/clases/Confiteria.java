@@ -7,7 +7,7 @@ public class Confiteria {
     private String[] opcionesBebida;
     private boolean mesaDisponible;
     private Semaphore semaforoMesa1;
-    private Semaphore semaforoMesa2;
+    // private Semaphore semaforoMesa2;
     private Semaphore semaforoAtender;
     private Semaphore semaforoEmpleado;
     private Semaphore semaforoCocinar;
@@ -18,7 +18,7 @@ public class Confiteria {
         opcionesComida = opciones1;
         opcionesBebida = opciones2;
         semaforoMesa1 = new Semaphore(0);
-        semaforoMesa2 = new Semaphore(0);
+        // semaforoMesa2 = new Semaphore(0);
         semaforoAtender = new Semaphore(0);
         semaforoCocinar = new Semaphore(0);
         semaforoEmpleado = new Semaphore(2);
@@ -128,4 +128,5 @@ public class Confiteria {
         ordenBebida = opcion;
         semaforoAtender.release();
     }
+
 }

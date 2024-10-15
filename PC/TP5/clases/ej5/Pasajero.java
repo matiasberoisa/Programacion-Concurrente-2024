@@ -33,6 +33,7 @@ public class Pasajero implements Runnable {
         laBoleteria.dejarFila();
         elTren.subirse();
         System.out.println("el pasajero " + this.nombre + " se sube al tren");
+        elTren.esperarViaje();
         elTren.bajarse();
         System.out.println("el pasajero " + this.nombre + " se baja al tren");
     }

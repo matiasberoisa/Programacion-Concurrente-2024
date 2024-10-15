@@ -7,12 +7,10 @@ public class Tren {
     private Semaphore semaforoControl = new Semaphore(0);
     private Semaphore semaforoViaje = new Semaphore(0);
     private int limite;
-    private int cantidad;
 
     public Tren(int lim) {
         limite = lim;
         semaforoAsientos = new Semaphore(lim);
-        cantidad = 0;
     }
 
     // metodo para el pasajero
@@ -21,7 +19,13 @@ public class Tren {
         try {
             semaforoAsientos.acquire();
             this.viajar();
-            cantidad++;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void esperarViaje() {
+        try {
             semaforoViaje.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -30,13 +34,12 @@ public class Tren {
 
     public void bajarse() {
         semaforoAsientos.release();
-        cantidad--;
     }
 
     // metodo para el control
 
     public void viajar() {
-        if (cantidad == limite) {
+        if (semaforoAsientos.tryAcquire()) {
             semaforoControl.release();
         }
 
@@ -51,8 +54,6 @@ public class Tren {
     }
 
     public void abrirPuertas() {
-        if (cantidad == limite) {
-
-        }
+        semaforoViaje.release(limite);
     }
 }

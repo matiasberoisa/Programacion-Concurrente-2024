@@ -9,13 +9,6 @@ public class Mesa {
         disponible = true;
     }
 
-    public synchronized void esperarMesa() throws InterruptedException {
-        while (!disponible) {
-            wait();
-        }
-
-    }
-
     public synchronized void dejarMesa() {
         notify();
     }

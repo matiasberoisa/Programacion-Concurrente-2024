@@ -13,6 +13,7 @@ public class ControlTren implements Runnable {
                 elTren.cerrarPuertas();
                 System.out.println("el tren cierra las puertas y realiza el viaje");
                 Thread.sleep(3000);
+                elTren.abrirPuertas();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

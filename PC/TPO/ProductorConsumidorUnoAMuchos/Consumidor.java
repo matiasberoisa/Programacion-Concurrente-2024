@@ -15,7 +15,6 @@ public class Consumidor implements Runnable {
             try {
                 rc.consumir();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             try {

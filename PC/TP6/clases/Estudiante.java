@@ -3,14 +3,22 @@ package TP6.clases;
 public class Estudiante implements Runnable {
     private int numero;
     private Mesa[] mesas;
+    private Estudio elEstudio;
 
-    public Estudiante(int num, Mesa[] me) {
+    public Estudiante(int num, Mesa[] me, Estudio est) {
         numero = num;
         mesas = me;
+        elEstudio = est;
     }
 
     public void run() {
-
+        System.out.println("el estudiante N° " + this.numero + " llega al estudio");
+        try {
+            elEstudio.esperarMesa();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("el estudiante N° " + this.numero + " busca una mesa");
         Mesa mesaDisponible = this.buscarMesa();
         if (mesaDisponible != null) {
             try {
@@ -35,4 +43,5 @@ public class Estudiante implements Runnable {
 
         return mesaDisponible;
     }
+
 }

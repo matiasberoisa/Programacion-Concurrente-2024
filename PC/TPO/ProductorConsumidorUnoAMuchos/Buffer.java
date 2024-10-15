@@ -3,7 +3,7 @@ package ProductorConsumidorUnoAMuchos;
 import java.util.concurrent.Semaphore;
 
 public class Buffer {
-	private Object[] elementos;
+    private Object[] elementos;
     private int ultimo;
     private Semaphore mutex = new Semaphore(1), consumidor = new Semaphore(3);
 
@@ -51,7 +51,6 @@ public class Buffer {
             mutex.acquire();
             Thread.sleep(2000);
         } catch (Exception e) {
-            // TODO: handle exception
         }
 
         if (ultimo >= 0) {
