@@ -9,10 +9,6 @@ public class Mesa {
         disponible = true;
     }
 
-    public synchronized void dejarMesa() {
-        notify();
-    }
-
     public void ocuparMesa() {
         disponible = false;
     }

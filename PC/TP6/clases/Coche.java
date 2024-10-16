@@ -12,10 +12,10 @@ public class Coche implements Runnable {
     }
 
     public void run() {
-        System.out.println("el coche n° " + this.numero + " se acerca al puente desde el " + this.direccion);
         if (direccion.equals("Norte")) {
             try {
                 puente.EntrarCocheDelNorte(this);
+                System.out.println("avanza por el norte el auto " + this.numero);
                 Thread.sleep(3000);
                 puente.salirCocheDelNorte();
 
@@ -25,6 +25,7 @@ public class Coche implements Runnable {
         } else {
             try {
                 puente.EntrarCocheDelSur(this);
+                System.out.println("avanza por el sur el auto " + this.numero);
                 Thread.sleep(3000);
                 puente.salirCocheDelSur();
             } catch (InterruptedException e) {

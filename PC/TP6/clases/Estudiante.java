@@ -2,46 +2,35 @@ package TP6.clases;
 
 public class Estudiante implements Runnable {
     private int numero;
-    private Mesa[] mesas;
     private Estudio elEstudio;
 
-    public Estudiante(int num, Mesa[] me, Estudio est) {
+    public Estudiante(int num, Estudio est) {
         numero = num;
-        mesas = me;
         elEstudio = est;
     }
 
     public void run() {
-        System.out.println("el estudiante N° " + this.numero + " llega al estudio");
+        Mesa mesaDisponible = null;
         try {
-            elEstudio.esperarMesa();
+            mesaDisponible = elEstudio.esperarMesa();
+            mesaDisponible.ocuparMesa();
+            System.out
+                    .println("el estudiante " + this.numero + " ocupa la mesa "
+                            + mesaDisponible.obtenerNumero());
+
+            Thread.sleep(5000);
+            mesaDisponible.liberarMesa();
+            elEstudio.notificar();
+            System.out.println(
+                    "el estudiante " + this.numero + " libera la mesa " + mesaDisponible.obtenerNumero());
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("el estudiante N° " + this.numero + " busca una mesa");
-        Mesa mesaDisponible = this.buscarMesa();
-        if (mesaDisponible != null) {
-            try {
-                mesaDisponible.ocuparMesa();
-                Thread.sleep(5000);
-                mesaDisponible.dejarMesa();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
-    public synchronized Mesa buscarMesa() {
-        Mesa mesaDisponible = null;
-        int pos = 0;
-        while (pos < mesas.length && mesaDisponible == null) {
-            if (mesas[pos].mesaDisponible()) {
-                mesaDisponible = mesas[pos];
-            }
-            pos++;
-        }
-
-        return mesaDisponible;
+    public int getNumero() {
+        return this.numero;
     }
 
 }
