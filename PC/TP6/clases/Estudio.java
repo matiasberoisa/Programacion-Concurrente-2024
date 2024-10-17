@@ -10,10 +10,8 @@ public class Estudio {
     public synchronized Mesa esperarMesa() throws InterruptedException {
 
         Mesa mesaDisponible = this.buscarMesa();
-        if (mesaDisponible == null) {
-            while (mesaDisponible == null) {
-                wait();
-            }
+        while (mesaDisponible == null) {
+            wait();
         }
 
         return mesaDisponible;
