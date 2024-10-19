@@ -12,9 +12,12 @@ public class Pasajero implements Runnable {
     }
 
     public void run() {
-        System.out.println("el pasajero " + this.numero + " quiere subir al barco");
         try {
             elBarco.subirPasajero();
+            System.out.println("el pasajero " + this.numero + " sube al barco");
+            elBarco.pasajeroAAuto();
+            elBarco.bajarPasajero();
+            System.out.println("el pasajero " + this.numero + " baja del barco");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

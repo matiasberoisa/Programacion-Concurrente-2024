@@ -12,9 +12,12 @@ public class Auto implements Runnable {
     }
 
     public void run() {
-        System.out.println("el auto " + this.numero + " quiere subir al barco");
         try {
             elBarco.subirAuto();
+            System.out.println("el auto " + this.numero + " sube al barco");
+            elBarco.autoAPasajero();
+            elBarco.bajarAuto();
+            System.out.println("el auto " + this.numero + " baja del barco");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

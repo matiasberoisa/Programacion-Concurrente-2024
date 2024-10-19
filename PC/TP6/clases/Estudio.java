@@ -2,18 +2,21 @@ package TP6.clases;
 
 public class Estudio {
     private Mesa[] mesas;
+    private boolean puedoEntrar = true;
 
     public Estudio(Mesa[] mes) {
         mesas = mes;
     }
 
     public synchronized Mesa esperarMesa() throws InterruptedException {
-
-        Mesa mesaDisponible = this.buscarMesa();
-        while (mesaDisponible == null) {
-            wait();
+        Mesa mesaDisponible = null;
+        this.usarMesa();
+        if (!puedoEntrar) {
+            while (!puedoEntrar) {
+                wait();
+            }
         }
-
+        mesaDisponible = this.buscarMesa();
         return mesaDisponible;
     }
 
@@ -30,7 +33,20 @@ public class Estudio {
         return mesaDisponible;
     }
 
-    public synchronized void notificar() {
-        notifyAll();
+    public void usarMesa() {
+        int pos = 0;
+        boolean encontrado = false;
+        while (pos < mesas.length && !encontrado) {
+            if (mesas[pos].mesaDisponible()) {
+                encontrado = true;
+            }
+            pos++;
+        }
+        puedoEntrar = encontrado;
+    }
+
+    public synchronized void habilitarMesa() {
+        puedoEntrar = true;
+        notify();
     }
 }

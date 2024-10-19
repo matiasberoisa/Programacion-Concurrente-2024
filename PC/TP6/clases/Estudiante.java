@@ -20,10 +20,9 @@ public class Estudiante implements Runnable {
 
             Thread.sleep(5000);
             mesaDisponible.liberarMesa();
-            elEstudio.notificar();
             System.out.println(
                     "el estudiante " + this.numero + " libera la mesa " + mesaDisponible.obtenerNumero());
-
+            elEstudio.habilitarMesa();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
