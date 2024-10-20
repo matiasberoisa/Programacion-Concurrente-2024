@@ -1,4 +1,4 @@
-package TP7.ej1;
+package TP7.clases.ej1;
 
 public class Museo {
 
