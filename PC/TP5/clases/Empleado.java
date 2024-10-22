@@ -1,33 +1,33 @@
 package TP5.clases;
 
 import java.util.Random;
-import java.util.UUID;
 
 public class Empleado implements Runnable {
-    private String nombre;
+    private int nombre;
     private Random numRandom = new Random();
-    private int longDeseada;
     private Confiteria laConfiteria;
+    private int unaMesa;
 
-    public Empleado(Confiteria c) {
-        longDeseada = numRandom.nextInt(1, 10);
-        this.nombre = UUID.randomUUID()
-                .toString()
-                .substring(0, longDeseada);
+    public Empleado(int n, Confiteria c) {
+        this.nombre = n;
         laConfiteria = c;
     }
 
     public void run() {
-        laConfiteria.ocuparMesa(this);
+        int pedido = numRandom.nextInt(1, 4);
+        unaMesa = laConfiteria.ocuparMesa(this);
+        System.out.println(unaMesa);
         System.out.println("el empleado " + this.nombre + " entra a la confiteria");
-        switch (numRandom.nextInt(1, 3)) {
+        switch (pedido) {
             case 1:
                 System.out.println("el empleado " + this.nombre + " busca bebida");
                 ordenarBebida();
+                tomar();
                 break;
             case 2:
                 System.out.println("el empleado " + this.nombre + " busca comida");
                 ordenarComida();
+                comer();
                 break;
             default:
                 System.out.println("el empleado " + this.nombre + " busca comida y bebida");
@@ -37,38 +37,52 @@ public class Empleado implements Runnable {
     }
 
     public void ordenarComida() {
-        try {
-            String opcion = laConfiteria
-                    .obtenerOpcionComida(numRandom.nextInt(1, laConfiteria.obtenerLongitudComida()));
-            System.out.println("el empleado desea ordenar " + opcion);
-            Thread.sleep(2000);
-            laConfiteria.realizarPedidoComida(opcion);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        String opcion = laConfiteria
+                .obtenerOpcionComida(numRandom.nextInt(1, laConfiteria.obtenerLongitudComida()));
+        System.out.println("el empleado " + this.nombre + " desea comer " + opcion);
+        laConfiteria.realizarPedidoComida(opcion, unaMesa);
 
     }
 
     public void ordenarBebida() {
+        String opcion = laConfiteria
+                .obtenerOpcionBebida(numRandom.nextInt(1, laConfiteria.obtenerLongitudBebida()));
+        System.out.println("el empleado " + this.nombre + " desea tomar " + opcion);
+        laConfiteria.realizarPedidoBebida(opcion, unaMesa);
+
+    }
+
+    public void ordenarAmbos() {
+        String opcionComida = laConfiteria
+                .obtenerOpcionComida(numRandom.nextInt(1, laConfiteria.obtenerLongitudComida()));
+        String opcionBebida = laConfiteria
+                .obtenerOpcionBebida(numRandom.nextInt(1, laConfiteria.obtenerLongitudBebida()));
         try {
-            String opcion = laConfiteria
-                    .obtenerOpcionComida(numRandom.nextInt(1, laConfiteria.obtenerLongitudBebida()));
-            System.out.println("el empleado desea ordenar " + opcion);
-            Thread.sleep(2000);
-            laConfiteria.realizarPedidoBebida(opcion);
+            laConfiteria.realizarPedido(opcionBebida, opcionComida, unaMesa);
+            System.out.println("el empleado " + this.nombre + " desea tomar " + opcionBebida);
+            laConfiteria.llamarMozo();
+            this.esperar();
+            System.out.println("el empleado recibe su bebida y ordena la comida");
+            System.out.println("el empleado " + this.nombre + " desea comer " + opcionComida);
+            laConfiteria.llamarCocinero();
+            this.esperar();
+            System.out.println("el empleado recibe su comida y comienza a comer");
+            Thread.sleep(3000);
+            System.out.println("el empleado termino, agradece a ambos y desocupa la mesa");
+            laConfiteria.desocuparMesa(2, unaMesa);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     public void comer() {
         try {
-            laConfiteria.esperar();
-            System.out.println("el empleado empieza a comer");
+            this.esperar();
+            System.out.println("el empleado " + this.nombre + " empieza a comer");
             Thread.sleep(3000);
-            System.out.println("el empleado termina de comer, agradece al cocinero y desocupa la mesa");
-            laConfiteria.desocuparMesa(1);
+            System.out.println(
+                    "el empleado " + this.nombre + " termina de comer, agradece al cocinero y desocupa la mesa");
+            laConfiteria.desocuparMesa(2, unaMesa);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -76,30 +90,31 @@ public class Empleado implements Runnable {
 
     public void tomar() {
         try {
-            laConfiteria.esperar();
-            System.out.println("el empleado empieza a tomar");
+            this.esperar();
+            System.out.println("el empleado " + this.nombre + " empieza a tomar");
             Thread.sleep(3000);
-            System.out.println("el empleado termina de tomar, agradece al mozo y desocupa la mesa");
-            laConfiteria.desocuparMesa(2);
+            System.out.println(
+                    "el empleado " + this.nombre + " termina de tomar, agradece al mozo y desocupa la mesa");
+            laConfiteria.desocuparMesa(1, unaMesa);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void ordenarAmbos() {
-        try {
-            this.ordenarBebida();
-            laConfiteria.esperar();
-            System.out.println("el empleado recibe su bebida y ordena la comida");
-            this.ordenarComida();
-            laConfiteria.esperar();
-            System.out.println("el empleado recibe su comida y comienza a comer");
-            Thread.sleep(3000);
-            System.out.println("el empleado termino, agradece a ambos y desocupa la mesa");
-            laConfiteria.desocuparMesa(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void registrarMesa(int num) {
+        unaMesa = num;
+    }
+
+    public void esperar() {
+        if (unaMesa == 1) {
+            laConfiteria.esperarMesa1();
+        } else {
+            laConfiteria.esperarMesa2();
         }
+    }
+
+    public int getNombre() {
+        return this.nombre;
     }
 
 }

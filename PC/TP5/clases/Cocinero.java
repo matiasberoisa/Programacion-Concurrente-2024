@@ -10,11 +10,23 @@ public class Cocinero implements Runnable {
     public void run() {
         System.out.println("el cocinero empieza a trabajar");
         while (true) {
-            laConfiteria.atender();
-            realizarOrden();
-            laConfiteria.vigilarCocinero();
-            ordenarCocina();
-            laConfiteria.habilitarMesa();
+            laConfiteria.trabajar();
+            if (laConfiteria.mesa1ocupada() == false && laConfiteria.obtenerOrdenComida(1) != null) {
+                System.out.println("//////////MESA 1//////////");
+                laConfiteria.cocinar();
+                realizarOrden(1);
+                laConfiteria.llevarPedidoMesa1();
+                laConfiteria.vigilarCocinero();
+                ordenarCocina();
+            }
+            if (laConfiteria.mesa2ocupada() == false && laConfiteria.obtenerOrdenComida(2) != null) {
+                System.out.println("//////////MESA 2//////////");
+                laConfiteria.cocinar();
+                realizarOrden(2);
+                laConfiteria.llevarPedidoMesa2();
+                laConfiteria.vigilarCocinero();
+                ordenarCocina();
+            }
         }
     }
 
@@ -25,16 +37,16 @@ public class Cocinero implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        laConfiteria.habilitarMesa();
     }
 
-    public void realizarOrden() {
+    public void realizarOrden(int mesa) {
         String orden = "";
         try {
-            orden = laConfiteria.obtenerOrdenComida();
+            orden = laConfiteria.obtenerOpcionComida(mesa);
             System.out.println("el cocinero prepara " + orden);
             Thread.sleep(3000);
             System.out.println("el cocinero lleva " + orden);
-            laConfiteria.llevarPedido();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
