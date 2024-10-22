@@ -41,4 +41,16 @@ public class Boleteria {
     public void dejarFila() {
         semaforoFila.release();
     }
+
+    public void cerrarBoleteria() {
+        try {
+            semaforoFila.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void abrirBoleteria() {
+        semaforoFila.release();
+    }
 }

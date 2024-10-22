@@ -1,20 +1,12 @@
 package TP5.clases.ej5;
 
-import java.util.Random;
-import java.util.UUID;
-
 public class Pasajero implements Runnable {
-    private String nombre;
-    private Random numRandom = new Random();
-    private int longDeseada;
+    private int nombre;
     private Boleteria laBoleteria;
     private Tren elTren;
 
-    public Pasajero(Boleteria laBole, Tren elT) {
-        longDeseada = numRandom.nextInt(1, 10);
-        this.nombre = UUID.randomUUID()
-                .toString()
-                .substring(0, longDeseada);
+    public Pasajero(int nn, Boleteria laBole, Tren elT) {
+        this.nombre = nn;
         laBoleteria = laBole;
         elTren = elT;
     }
@@ -34,7 +26,7 @@ public class Pasajero implements Runnable {
         elTren.subirse();
         System.out.println("el pasajero " + this.nombre + " se sube al tren");
         elTren.esperarViaje();
-        elTren.bajarse();
         System.out.println("el pasajero " + this.nombre + " se baja al tren");
+        elTren.bajarse();
     }
 }
