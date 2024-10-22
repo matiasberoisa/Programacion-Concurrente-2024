@@ -1,25 +1,25 @@
-package TP7.clases.ej2;
+package TP7.clases.ej3;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Libro {
-    private boolean disponible;
+public class Cocina {
     private ReentrantLock lock;
-    private Condition objDisponible;
+    private Condition cocineros;
+    private boolean disponible;
 
-    public Libro() {
-        disponible = true;
+    public Cocina() {
         lock = new ReentrantLock(true);
-        objDisponible = lock.newCondition();
+        cocineros = lock.newCondition();
+        disponible = true;
     }
 
-    public void usarLibro() {
+    public void usarCocina() {
         lock.lock();
         try {
             if (!disponible) {
                 while (!disponible) {
-                    objDisponible.await();
+                    cocineros.await();
                 }
             }
             disponible = false;
@@ -30,10 +30,10 @@ public class Libro {
         }
     }
 
-    public void liberarLibro() {
+    public void liberarCocina() {
         lock.lock();
         disponible = true;
-        objDisponible.signal();
+        cocineros.signal();
         lock.unlock();
     }
 }

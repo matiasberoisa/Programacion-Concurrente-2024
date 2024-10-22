@@ -17,23 +17,23 @@ public class Computadora {
     public synchronized void usarComputadora() {
         lock.lock();
         try {
-            while (!disponible) {
-                objDisponible.await();
+            if (!disponible) {
+                while (!disponible) {
+                    objDisponible.await();
+                }
             }
-            this.ocuparComputadora();
+            disponible = false;
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
     }
 
-    public synchronized void ocuparComputadora() {
-        disponible = false;
-    }
-
     public synchronized void liberarComputadora() {
-        disponible = false;
+        lock.lock();
+        disponible = true;
         objDisponible.signal();
+        lock.unlock();
     }
 }
