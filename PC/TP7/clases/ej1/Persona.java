@@ -1,7 +1,7 @@
 package TP7.clases.ej1;
 
 public class Persona implements Runnable {
-    private Museo elMuseo;
+    // private Museo elMuseo;
 
     public Persona() {
 
