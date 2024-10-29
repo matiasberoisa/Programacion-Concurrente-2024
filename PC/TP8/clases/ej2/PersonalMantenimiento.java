@@ -10,16 +10,14 @@ public class PersonalMantenimiento implements Runnable {
     }
 
     public void run() {
-        while (true) {
-            try {
-                elObservatorio.entraPersonal();
-                System.out.println("el empleado " + this.numero + " entra a limpiar el observatorio");
-                Thread.sleep(5000);
-                System.out.println("el empleado " + this.numero + " deja el observatorio");
-                elObservatorio.salePersonal();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            elObservatorio.entraPersonal();
+            System.out.println("el empleado " + this.numero + " entra a limpiar el observatorio");
+            Thread.sleep(5000);
+            System.out.println("el empleado " + this.numero + " deja el observatorio");
+            elObservatorio.salePersonal();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

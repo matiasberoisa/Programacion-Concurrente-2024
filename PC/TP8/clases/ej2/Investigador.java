@@ -10,17 +10,15 @@ public class Investigador implements Runnable {
     }
 
     public void run() {
-        while (true) {
-            try {
-                elObservatorio.entraInvestigador();
-                System.out.println("el investigador " + this.numero + " entra al observatorio a trabajar");
-                Thread.sleep(5000);
-                elObservatorio.registrarObservacion();
-                System.out.println("el investigador " + this.numero + " deja el observatorio");
-                elObservatorio.saleInvestigador();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            elObservatorio.entraInvestigador();
+            System.out.println("el investigador " + this.numero + " entra al observatorio a trabajar");
+            Thread.sleep(5000);
+            elObservatorio.registrarObservacion();
+            System.out.println("el investigador " + this.numero + " deja el observatorio");
+            elObservatorio.saleInvestigador();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

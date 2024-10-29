@@ -1,6 +1,5 @@
 package TP8.clases.ej2;
 
-import java.util.Random;
 import java.util.concurrent.locks.*;
 
 public class Observatorio {
@@ -11,12 +10,12 @@ public class Observatorio {
     private String quienEntra;
     private int capacidad;
     private int cantidadVisitante;
-    private int visitantesActuales;
+    private int cantidadEmpleado;
+    private int cantidadInvestigador;
     private int visitanteEsperando;
     private int empleadoEsperando;
     private int investigadorEsperando;
     private int observaciones;
-    private Random random;
 
     public Observatorio(int cap) {
         lock = new ReentrantLock();
@@ -25,7 +24,8 @@ public class Observatorio {
         investigadorEspera = lock.newCondition();
         capacidad = cap;
         cantidadVisitante = 0;
-        visitantesActuales = 0;
+        cantidadEmpleado = 0;
+        cantidadInvestigador = 0;
         empleadoEsperando = 0;
         investigadorEsperando = 0;
         observaciones = 0;
@@ -36,8 +36,6 @@ public class Observatorio {
 
     public void entraVisitante(Visitante unVisitante) throws InterruptedException {
         lock.lock();
-        visitantesActuales = random.nextInt(50);
-        System.out.println("visitantes actuales: " + visitantesActuales);
         try {
             if (quienEntra.equals("x")) {
                 quienEntra = "Visitante";
@@ -46,13 +44,15 @@ public class Observatorio {
                     capacidad = 30;
                 }
             } else {
-                cantidadVisitante++;
-                while (!quienEntra.equals("Visitante") || cantidadVisitante > capacidad) {
-                    visitantesEspera.await();
-                }
                 if (unVisitante.esDiscapacitado()) {
                     capacidad = 30;
                 }
+                visitanteEsperando++;
+                while (!quienEntra.equals("Visitante") || cantidadVisitante > capacidad) {
+                    visitantesEspera.await();
+                }
+                visitanteEsperando--;
+                cantidadVisitante++;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class Observatorio {
         cantidadVisitante--;
         if (cantidadVisitante == 0) {
             if (empleadoEsperando > 0) {
-                quienEntra = "Empleado";
+                quienEntra = "Personal";
                 personalEspera.signalAll();
             }
             if (investigadorEsperando > 0) {
@@ -85,10 +85,6 @@ public class Observatorio {
         return this.cantidadVisitante;
     }
 
-    public int visitantes() {
-        return this.visitantesActuales;
-    }
-
     // metodos referidos a los personales de mantenimiento
 
     public void entraPersonal() throws InterruptedException {
@@ -96,12 +92,14 @@ public class Observatorio {
         try {
             if (quienEntra.equals("x")) {
                 quienEntra = "Personal";
+                cantidadEmpleado++;
             } else {
-                if (!quienEntra.equals("Personal")) {
-                    while (!quienEntra.equals("Personal")) {
-                        personalEspera.await();
-                    }
+                empleadoEsperando++;
+                while (!quienEntra.equals("Personal") || cantidadEmpleado > 2) {
+                    personalEspera.await();
                 }
+                empleadoEsperando--;
+                cantidadEmpleado++;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,13 +110,16 @@ public class Observatorio {
 
     public void salePersonal() {
         lock.lock();
-        if (investigadorEsperando > 0) {
-            quienEntra = "Investigador";
-            investigadorEspera.signalAll();
-        }
-        if (visitanteEsperando > 0) {
-            quienEntra = "Visitante";
-            visitantesEspera.signalAll();
+        cantidadEmpleado--;
+        if (cantidadEmpleado == 0) {
+            if (investigadorEsperando > 0) {
+                quienEntra = "Investigador";
+                investigadorEspera.signalAll();
+            }
+            if (visitanteEsperando > 0) {
+                quienEntra = "Visitante";
+                visitantesEspera.signalAll();
+            }
         }
         lock.unlock();
     }
@@ -130,12 +131,14 @@ public class Observatorio {
         try {
             if (quienEntra.equals("x")) {
                 quienEntra = "Investigador";
+                cantidadInvestigador++;
             } else {
-                if (!quienEntra.equals("Investigador")) {
-                    while (!quienEntra.equals("Investigador")) {
-                        investigadorEspera.await();
-                    }
+                investigadorEsperando++;
+                while (!quienEntra.equals("Investigador") || cantidadInvestigador > 2) {
+                    investigadorEspera.await();
                 }
+                investigadorEsperando--;
+                cantidadInvestigador++;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,13 +149,16 @@ public class Observatorio {
 
     public void saleInvestigador() {
         lock.lock();
-        if (visitanteEsperando > 0) {
-            quienEntra = "Visitante";
-            visitantesEspera.signalAll();
-        }
-        if (empleadoEsperando > 0) {
-            quienEntra = "Empleado";
-            personalEspera.signalAll();
+        cantidadInvestigador--;
+        if (cantidadInvestigador == 0) {
+            if (visitanteEsperando > 0) {
+                quienEntra = "Visitante";
+                visitantesEspera.signalAll();
+            }
+            if (empleadoEsperando > 0) {
+                quienEntra = "Personal";
+                personalEspera.signalAll();
+            }
         }
         lock.unlock();
     }

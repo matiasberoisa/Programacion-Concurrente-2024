@@ -14,7 +14,8 @@ public class Visitante implements Runnable {
     public void run() {
         try {
             elObservatorio.entraVisitante(this);
-            System.out.println("el visitante N° " + this.numero + " ingresa al observatorio");
+            System.out.println("el visitante N° " + this.numero + " ingresa al observatorio, es discapacitado? "
+                    + this.discapacitado);
             Thread.sleep(3000);
             System.out.println("el visitante N° " + this.numero + " sale del observatorio");
             elObservatorio.dejarSala(this);
