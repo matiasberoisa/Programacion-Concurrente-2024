@@ -16,7 +16,7 @@ public class PersonalMantenimiento implements Runnable {
                 System.out.println("el empleado " + this.numero + " entra a limpiar el observatorio");
                 Thread.sleep(5000);
                 System.out.println("el empleado " + this.numero + " deja el observatorio");
-                elObservatorio.salePersonal(this);
+                elObservatorio.salePersonal();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package TP8.clases.ej2;
 
+import java.util.Random;
 import java.util.concurrent.locks.*;
 
 public class Observatorio {
@@ -10,22 +11,24 @@ public class Observatorio {
     private String quienEntra;
     private int capacidad;
     private int cantidadVisitante;
-    private int cantidadEmpleados;
-    private int cantidadInvestigadores;
-    private Object[] observaciones;
-    private int cantObservaciones;
+    private int visitantesActuales;
+    private int visitanteEsperando;
+    private int empleadoEsperando;
+    private int investigadorEsperando;
+    private int observaciones;
+    private Random random;
 
-    public Observatorio(int cap, int cantE, int cantI) {
-        lock = new ReentrantLock(true);
+    public Observatorio(int cap) {
+        lock = new ReentrantLock();
         visitantesEspera = lock.newCondition();
         personalEspera = lock.newCondition();
         investigadorEspera = lock.newCondition();
         capacidad = cap;
         cantidadVisitante = 0;
-        cantidadEmpleados = cantE;
-        cantidadInvestigadores = cantI;
-        observaciones = new Object[30];
-        cantObservaciones = 0;
+        visitantesActuales = 0;
+        empleadoEsperando = 0;
+        investigadorEsperando = 0;
+        observaciones = 0;
         quienEntra = "x";
     }
 
@@ -33,24 +36,22 @@ public class Observatorio {
 
     public void entraVisitante(Visitante unVisitante) throws InterruptedException {
         lock.lock();
+        visitantesActuales = random.nextInt(50);
+        System.out.println("visitantes actuales: " + visitantesActuales);
         try {
             if (quienEntra.equals("x")) {
                 quienEntra = "Visitante";
-                ocuparSala();
-                verificarDiscapacidad(unVisitante);
+                cantidadVisitante++;
+                if (unVisitante.esDiscapacitado()) {
+                    capacidad = 30;
+                }
             } else {
-                if (!quienEntra.equals("Visitante")) {
-                    while (!quienEntra.equals("Visitante")) {
-                        visitantesEspera.await();
-                    }
-                } else {
-                    ocuparSala();
-                    verificarDiscapacidad(unVisitante);
-                    if (cantidadVisitante > capacidad) {
-                        while (cantidadVisitante > capacidad) {
-                            visitantesEspera.await();
-                        }
-                    }
+                cantidadVisitante++;
+                while (!quienEntra.equals("Visitante") || cantidadVisitante > capacidad) {
+                    visitantesEspera.await();
+                }
+                if (unVisitante.esDiscapacitado()) {
+                    capacidad = 30;
                 }
             }
         } catch (Exception e) {
@@ -61,41 +62,31 @@ public class Observatorio {
 
     }
 
-    private void verificarDiscapacidad(Visitante unVisitante) {
-        if (unVisitante.esDiscapacitado()) {
-            cambiarCapacidad();
-        }
-
-    }
-
-    private void ocuparSala() {
-        cantidadVisitante++;
-    }
-
     public void dejarSala(Visitante unVisitante) {
         lock.lock();
         if (unVisitante.esDiscapacitado()) {
-            retornarCapacidad();
+            capacidad = 50;
         }
-        if (unVisitante.getNumeroEntrada() == capacidad) {
-            quienEntra = "x";// se deja en vacio para que cualquiera de los restantes pueda entrar
-            cantidadVisitante = 0;
-            personalEspera.signalAll();
-            investigadorEspera.signalAll();
+        cantidadVisitante--;
+        if (cantidadVisitante == 0) {
+            if (empleadoEsperando > 0) {
+                quienEntra = "Empleado";
+                personalEspera.signalAll();
+            }
+            if (investigadorEsperando > 0) {
+                quienEntra = "Investigador";
+                investigadorEspera.signalAll();
+            }
         }
         lock.unlock();
-    }
-
-    private void cambiarCapacidad() {
-        capacidad = 30;
     }
 
     public int numeroEntrada() {
         return this.cantidadVisitante;
     }
 
-    private void retornarCapacidad() {
-        capacidad = 50;
+    public int visitantes() {
+        return this.visitantesActuales;
     }
 
     // metodos referidos a los personales de mantenimiento
@@ -119,12 +110,15 @@ public class Observatorio {
         }
     }
 
-    public void salePersonal(PersonalMantenimiento elPersonal) {
+    public void salePersonal() {
         lock.lock();
-        if (elPersonal.getNumero() == cantidadEmpleados) {
-            quienEntra = "x";// se deja en vacio para que cualquiera de los restantes pueda entrar
-            visitantesEspera.signalAll();
+        if (investigadorEsperando > 0) {
+            quienEntra = "Investigador";
             investigadorEspera.signalAll();
+        }
+        if (visitanteEsperando > 0) {
+            quienEntra = "Visitante";
+            visitantesEspera.signalAll();
         }
         lock.unlock();
     }
@@ -150,18 +144,24 @@ public class Observatorio {
         }
     }
 
-    public void saleInvestigador(Investigador elInvestigador) {
+    public void saleInvestigador() {
         lock.lock();
-        if (elInvestigador.getNumero() == cantidadInvestigadores) {
-            quienEntra = "x";// se deja en vacio para que cualquiera de los restantes pueda entrar
+        if (visitanteEsperando > 0) {
+            quienEntra = "Visitante";
             visitantesEspera.signalAll();
+        }
+        if (empleadoEsperando > 0) {
+            quienEntra = "Empleado";
             personalEspera.signalAll();
         }
         lock.unlock();
     }
 
     public void registrarObservacion() {
-        observaciones[cantObservaciones] = new Object();
-        cantObservaciones++;
+        observaciones++;
+    }
+
+    public int getObsevarciones() {
+        return this.observaciones;
     }
 }

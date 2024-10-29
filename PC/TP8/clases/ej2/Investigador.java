@@ -17,7 +17,7 @@ public class Investigador implements Runnable {
                 Thread.sleep(5000);
                 elObservatorio.registrarObservacion();
                 System.out.println("el investigador " + this.numero + " deja el observatorio");
-                elObservatorio.saleInvestigador(this);
+                elObservatorio.saleInvestigador();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
