@@ -4,20 +4,22 @@ import java.util.concurrent.Semaphore;
 
 public class Pista {
     private Semaphore semaforoPista;
-    private Semaphore semaforoDespegue;
     private Semaphore semaforoTorre;
     private int contador;
+    private String bandera;
 
     public Pista() {
         contador = 0;
+        bandera = "Aterrizar";
         semaforoPista = new Semaphore(1);
-        semaforoDespegue = new Semaphore(0);
         semaforoTorre = new Semaphore(0);
     }
 
     public void aterrizar() {
         try {
-            semaforoPista.acquire();
+            if (bandera.equals("Aterrizar")) {
+                semaforoPista.acquire();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -37,14 +39,17 @@ public class Pista {
 
     public void despegar() {
         try {
-            semaforoDespegue.acquire();
+            if (bandera.equals("Despegar")) {
+                semaforoPista.acquire();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void priorizarDespegue() {
-        semaforoDespegue.release();
+        semaforoPista.release();
+        bandera = "Aterrizar";
         contador = 0;
     }
 
