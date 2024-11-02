@@ -16,49 +16,42 @@ public class Recipiente {
     public Recipiente(int lim) {
         Olisto = false;
         Hlisto = false;
+        hiloDentro = false;
         recipiente = 0;
         cantH = 0;
         limite = lim;
         atomos[0] = "Hidrogeno";
         atomos[1] = "Oxigeno";
         bandera = atomos[random.nextInt(0, 2)];
-        hiloDentro = false;
     }
 
-    public synchronized void prepararHidrogeno() throws InterruptedException {
-        if (!bandera.equals("Hidrogeno") || Hlisto || cantH > 2) {
-            while (!bandera.equals("Hidrogeno") || Hlisto || cantH > 2) {
-                wait();
+    public synchronized void prepararHidrogeno(Hidrogeno atomoHidrogeno) throws InterruptedException {
+        while (!atomoHidrogeno.getAtomo().equals(bandera) || Hlisto) {
+            wait();
+        }
+        if (atomoHidrogeno.getAtomo().equals(bandera) && !Hlisto && !hiloDentro) {
+            hiloDentro = true;
+            cantH++;
+            if (cantH == 2) {
+                Hlisto = true;
             }
         } else {
-            if (!hiloDentro) {
-                while (!hiloDentro) {
-                    wait();
-                }
-            } else {
-                hiloDentro = true;
-                cantH++;
-                if (cantH == 2) {
-                    Hlisto = true;
-                }
+            while (hiloDentro) {
+                wait();
             }
-
         }
     }
 
-    public synchronized void prepararOxigeno() throws InterruptedException {
-        if (!bandera.equals("Oxigeno") || Olisto) {
-            while (!bandera.equals("oxigeno") || Olisto) {
-                wait();
-            }
+    public synchronized void prepararOxigeno(Oxigeno atomoOxigeno) throws InterruptedException {
+        while (!atomoOxigeno.getAtomo().equals(bandera) || Olisto) {
+            wait();
+        }
+        if (atomoOxigeno.getAtomo().equals(bandera) && !Olisto && !hiloDentro) {
+            hiloDentro = true;
+            Olisto = true;
         } else {
-            if (!hiloDentro) {
-                while (!hiloDentro) {
-                    wait();
-                }
-            } else {
-                hiloDentro = true;
-                Olisto = true;
+            while (hiloDentro) {
+                wait();
             }
         }
     }
@@ -72,18 +65,21 @@ public class Recipiente {
             System.out.println("el recipiente se ha llenado");
             recipiente = 0;
         }
+        notifyAll();
     }
 
     public synchronized void oxigenoListo() {
         bandera = "Hidrogeno";
         hiloDentro = false;
-        notifyAll();
+        notify();
     }
 
     public synchronized void hidrogenoListo() {
-        bandera = "Oxigeno";
+        if (cantH == 2) {
+            bandera = "Oxigeno";
+        }
         hiloDentro = false;
-        notifyAll();
+        notify();
     }
 
     public boolean OListo() {
@@ -92,5 +88,9 @@ public class Recipiente {
 
     public boolean Hlisto() {
         return Hlisto;
+    }
+
+    public int cantRecipiente() {
+        return this.recipiente;
     }
 }

@@ -11,18 +11,22 @@ public class Oxigeno implements Runnable {
 
     public void run() {
         try {
-            elRecipiente.prepararOxigeno();
+            elRecipiente.prepararOxigeno(this);
             System.out.println("un atomo de " + atomo + " esta listo");
             Thread.sleep(3000);
             elRecipiente.oxigenoListo();
             if (elRecipiente.OListo() && elRecipiente.Hlisto()) {
                 elRecipiente.hacerAgua();
-                Thread.sleep(3000);
+                System.out.println("se ha formado agua. recipiente: " + elRecipiente.cantRecipiente());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getAtomo() {
+        return this.atomo;
     }
 
 }

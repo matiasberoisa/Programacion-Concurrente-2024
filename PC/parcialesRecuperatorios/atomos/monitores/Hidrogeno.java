@@ -11,17 +11,20 @@ public class Hidrogeno implements Runnable {
 
     public void run() {
         try {
-            elRecipiente.prepararHidrogeno();
+            elRecipiente.prepararHidrogeno(this);
             System.out.println("un atomo de " + atomo + " esta listo");
             Thread.sleep(3000);
             elRecipiente.hidrogenoListo();
             if (elRecipiente.OListo() && elRecipiente.Hlisto()) {
                 elRecipiente.hacerAgua();
-                Thread.sleep(3000);
+                System.out.println("se ha formado agua. recipiente: " + elRecipiente.cantRecipiente());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public String getAtomo() {
+        return this.atomo;
+    }
 }
