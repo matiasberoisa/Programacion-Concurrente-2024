@@ -1,4 +1,4 @@
-package parcialesRecuperatorios.atomos;
+package parcialesRecuperatorios.atomos.monitores;
 
 public class TestAtomos {
     public static void main(String[] args) {

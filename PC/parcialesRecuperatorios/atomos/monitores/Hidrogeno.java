@@ -1,4 +1,4 @@
-package parcialesRecuperatorios.atomos;
+package parcialesRecuperatorios.atomos.monitores;
 
 public class Hidrogeno implements Runnable {
     private String atomo;

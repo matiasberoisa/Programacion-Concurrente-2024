@@ -1,4 +1,4 @@
-package parcialesRecuperatorios.atomos;
+package parcialesRecuperatorios.atomos.locks;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
