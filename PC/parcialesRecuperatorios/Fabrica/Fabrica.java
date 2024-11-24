@@ -92,6 +92,7 @@ public class Fabrica {
 
     public void ensamblar() {
         try {
+
             ruedas.acquire(4);
             puertas.acquire(2);
             carroceria.acquire();

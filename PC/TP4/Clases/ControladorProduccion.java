@@ -15,10 +15,12 @@ public class ControladorProduccion {
         lineaActual = tipo;
     }
 
-    public void puedeIngresar(Producto unProducto) {
+    public boolean puedeIngresar(Producto unProducto) {
+        boolean ensamblado = false;
         try {
             semaforoLinea.acquire();
             if (unProducto.getTipo().equals(lineaActual)) {
+                ensamblado = true;
                 System.out.println("el producto " + unProducto.getTipo() + " n° " + unProducto.getNumero()
                         + " entra a la linea de ensamblaje");
                 Thread.sleep(1000);
@@ -33,5 +35,6 @@ public class ControladorProduccion {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return ensamblado;
     }
 }

@@ -2,6 +2,7 @@ package Clases;
 
 public class Mecanico extends Producto implements Runnable {
     private ControladorProduccion elControlador;
+    private boolean ensamblado = false;
 
     public Mecanico(ControladorProduccion elCon, int num) {
         super("Mecanico", num);
@@ -9,6 +10,11 @@ public class Mecanico extends Producto implements Runnable {
     }
 
     public void run() {
-        elControlador.puedeIngresar(this);
+        while (!ensamblado) {
+            if (elControlador.puedeIngresar(this)) {
+                ensamblado = true;
+            }
+        }
+
     }
 }
