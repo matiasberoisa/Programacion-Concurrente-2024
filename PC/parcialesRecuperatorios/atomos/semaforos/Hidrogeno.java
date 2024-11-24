@@ -3,17 +3,19 @@ package parcialesRecuperatorios.atomos.semaforos;
 public class Hidrogeno implements Runnable {
     private String atomo;
     private Recipiente elRecipiente;
+    private int numero;
 
-    public Hidrogeno(Recipiente elR) {
+    public Hidrogeno(Recipiente elR, int num) {
         atomo = "Hidrogeno";
         elRecipiente = elR;
+        numero = num;
     }
 
     public void run() {
         boolean hizoAgua = false;
         try {
             elRecipiente.entraHidrogeno();
-            System.out.println("una molecula de " + atomo + " esta lista");
+            System.out.println("la molecula " + numero + " de " + atomo + " esta lista");
             Thread.sleep(3000);
             hizoAgua = elRecipiente.hacerAgua();
             if (hizoAgua) {
